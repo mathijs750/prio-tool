@@ -16,7 +16,6 @@ interface ITaskListProps {
 export function TaskList({ tasks }: ITaskListProps) {
   return (
     <div className="task-list">
-      <h2>Tasks</h2>
       <ul>
         {tasks.map((task) => (
           <li key={task.id} className={`task-item priority-${task.priority}`}>

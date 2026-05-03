@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import './App.css'
 import type { ITask } from './types'
 import { TaskList } from './TaskList'
 
@@ -30,7 +29,7 @@ function App() {
 
   return (
     <>
-      <section id="center" className="task-list">
+      <section className="task-list">
         <h1>Priority Task List</h1>
         <TaskList tasks={tasks} />
       </section>
