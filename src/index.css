@@ -1,19 +1,36 @@
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  /* The Paper Base */
+  --bg: oklab(95% 0.01 0.03);
+  /* Warm Cream/Parchment */
+  --bg-card: oklab(97% 0.01 0.04);
+  /* Slightly lighter for card depth */
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  /* The Ink */
+  --text: oklab(25% 0.02 0.03);
+  /* Deep Sepia (better than pure black) */
+  --text-muted: oklab(50% 0.02 0.03);
+  /* Faded ink for sub-tasks */
+
+  /* Priority Colors (Pastel but legible) */
+  /* Priority "Stamps" (Dusty, faded pastels) */
+  --prio-high: oklab(75% 0.08 0.04);
+  /* Dusty Rose / Red Wax Seal */
+  --prio-med: oklab(82% 0.02 0.10);
+  /* Antique Gold / Ochre */
+  --prio-low: oklab(80% -0.05 0.05);
+  /* Sage / Dried Eucalyptus */
+
+  /* UI Details */
+  --border: oklab(88% 0.02 0.05);
+  /* Subtle paper-fold line */
+  --shadow:
+    rgba(60, 50, 40, 0.08) 0px 2px 4px,
+    rgba(60, 50, 40, 0.05) 0px 8px 16px;
+  /* Warm-toned shadows */
+
+  /* Typography: Mix a Serif for that "typed" feel */
+  --heading: 'Ibarra Real Nova', 'Georgia', serif;
+  --sans: 'Avenir', 'Montserrat', sans-serif;
 
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
@@ -32,26 +49,27 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
+    --bg: oklab(25% 0.01 0.02);
+    --text: oklab(90% 0.005 0.01);
+    --text-h: oklab(90% 0.005 0.01);
+    --text-muted: oklab(70% 0.01 0.02);
+    --border: oklab(40% 0.01 0.02);
+    --accent: oklab(75% -0.05 0.02);
 
+    /* Dark mode background tints */
+    --prio-high-bg: oklab(30% 0.04 0.02);
+    --prio-med-bg: oklab(32% 0.02 0.04);
+    --prio-low-bg: oklab(30% -0.03 0.02);
+
+    --shadow: rgba(0, 0, 0, 0.2) 0 10px 15px -3px;
+
+  }
 }
 
 #root {
   width: 1126px;
   max-width: 100%;
   margin: 0 auto;
-  border-inline: 1px solid var(--border);
   min-height: 100svh;
   display: flex;
   flex-direction: column;
@@ -65,8 +83,8 @@ body {
 h1,
 h2 {
   font-family: var(--heading);
-  font-weight: 500;
   color: var(--text-h);
+  font-weight: 600;
 }
 
 h1 {
@@ -91,10 +109,6 @@ h2 {
   }
 }
 
-p {
-  margin: 0;
-}
-
 /* Modal Styles */
 .modal-overlay {
   position: fixed;
@@ -108,79 +122,79 @@ p {
   justify-content: center;
   z-index: 1000;
   padding: 20px;
+  backdrop-filter: blur(4px);
 }
 
 .modal-content {
   background: var(--bg);
-  padding: 24px;
-  border-radius: 12px;
+  padding: 32px;
+  border-radius: 4px;
   width: 100%;
-  max-width: 400px;
+  max-width: 440px;
   box-shadow: var(--shadow);
-  border: 1px solid var(--border);
+  border: 2px solid var(--border);
 }
 
 .task-preview {
   color: var(--text-h);
-  margin-bottom: 20px;
-}
-
-.task-preview em {
-  font-style: italic;
+  margin-bottom: 24px;
+  font-size: 1.1rem;
 }
 
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 8px;
-  font-weight: 500;
+  margin-bottom: 12px;
+  font-weight: 600;
   color: var(--text-h);
 }
 
 .button-group {
   display: flex;
-  gap: 8px;
+  gap: 12px;
 }
 
 .button-group button {
   flex: 1;
-  padding: 8px;
-  border: 1px solid var(--border);
+  padding: 12px;
+  border: 2px solid var(--border);
   background: var(--bg);
   cursor: pointer;
-  border-radius: 6px;
-  transition: all 0.2s;
+  border-radius: 4px;
+  transition: all 0.2s ease-in-out;
   color: var(--text);
 }
 
 .button-group button.active {
   background: var(--accent);
-  color: white;
+  color: contrast-color(var(--accent));
   border-color: var(--accent);
+  transform: scale(1.05);
 }
 
 .modal-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 12px;
-  margin-top: 24px;
+  gap: 16px;
+  margin-top: 32px;
 }
 
 .modal-actions button {
-  padding: 10px 20px;
-  border-radius: 6px;
-  border: 1px solid var(--border);
+  padding: 12px 24px;
+  border-radius: 4px;
+  border: 2px solid var(--border);
   background: var(--bg);
   cursor: pointer;
   color: var(--text);
+  font-weight: 600;
 }
 
 .modal-actions button.primary {
   background: var(--accent);
-  color: white;
+  color: contrast-color(var(--accent));
   border-color: var(--accent);
 }
 
@@ -192,23 +206,23 @@ p {
   transform: translateX(-50%);
   width: 1126px;
   max-width: 100%;
-  padding: 16px;
+  padding: 24px;
   background: var(--bg);
-  border-top: 1px solid var(--border);
+  border-top: 2px solid var(--border);
   box-sizing: border-box;
   z-index: 900;
 }
 
 .quick-add-input {
   width: 100%;
-  padding: 14px 20px;
-  border-radius: 24px;
-  border: 1px solid var(--border);
+  padding: 16px 24px;
+  border-radius: 4px;
+  border: 2px solid var(--border);
   background: var(--social-bg);
   font-size: 18px;
   box-sizing: border-box;
   outline: none;
-  transition: border-color 0.2s;
+  transition: all 0.2s;
   color: var(--text-h);
 }
 
@@ -216,70 +230,63 @@ p {
   border-color: var(--accent);
 }
 
-#root {
-  padding-bottom: 100px;
-}
-
 /* Task List Styles */
 .task-list ul {
   list-style: none;
-  padding: 0;
+  padding: 16px;
   margin-top: 0;
 }
 
-.task-item {
+.task-card {
+  border-radius: 4px;
   padding: 16px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  box-shadow: var(--shadow);
+  color: contrast-color(currentcolor);
+  /* Default fallback or relative to card bg */
   margin-bottom: 12px;
-  background: var(--bg);
+  transition: transform 0.2s ease;
+  border: 2px solid var(--border);
+}
+
+
+.task-card.priority-A {
+  background: var(--prio-high-bg);
+  border-left: 5px solid var(--prio-high);
+  color: contrast-color(var(--prio-high-bg));
+}
+
+.task-card.priority-B {
+  background: var(--prio-med-bg);
+  border-left: 5px solid var(--prio-med);
+  color: contrast-color(var(--prio-med-bg));
+}
+
+.task-card.priority-C {
+  background: var(--prio-low-bg);
+  border-left: 5px solid var(--prio-low);
+  color: contrast-color(var(--prio-low-bg));
 }
 
 .task-header {
   display: flex;
-  gap: 8px;
+  gap: 12px;
   align-items: center;
-  margin-bottom: 8px;
 }
 
 .task-priority {
-  font-weight: bold;
-  color: var(--accent);
+  font-size: 1.2rem;
 }
 
 .task-description {
-  color: var(--text-h);
-  font-weight: 500;
+  /* No need to hardcode var(--text-h) if card color is set by contrast-color */
+  font-weight: 600;
   flex: 1;
 }
 
 .task-size {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   display: flex;
   align-items: center;
-}
-
-.task-details {
-  display: flex;
-  gap: 16px;
-  font-size: 14px;
-  color: var(--text);
-}
-
-.task-state {
-  text-transform: capitalize;
-}
-
-.priority-A {
-  border-left: 4px solid #ef4444;
-}
-
-.priority-B {
-  border-left: 4px solid #f59e0b;
-}
-
-.priority-C {
-  border-left: 4px solid #10b981;
 }
 
 .state-done {
@@ -289,10 +296,11 @@ p {
 .state-done .task-description {
   text-decoration: line-through;
 }
+
 .task-subtasks {
-  margin-top: 12px;
-  padding-left: 28px;
-  border-left: 2px dashed var(--border);
+  margin-top: 16px;
+  padding-left: 32px;
+  border-left: 3px dashed var(--border);
 }
 
 .task-subtasks ul {
@@ -302,43 +310,34 @@ p {
 }
 
 .subtask-item {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: var(--text);
-  margin-bottom: 4px;
+  margin-bottom: 8px;
   display: flex;
-  gap: 8px;
+  gap: 12px;
   align-items: center;
-}
-
-.subtask-priority {
-  font-size: 0.8rem;
-  min-width: 1.2rem;
-}
-
-.subtask-description {
-  flex: 1;
 }
 
 /* Modal Sub-tasks */
 .subtasks-scroll-container {
-  max-height: 200px;
+  max-height: 240px;
   overflow-y: auto;
-  margin-bottom: 8px;
-  padding-right: 4px;
+  margin-bottom: 12px;
+  padding-right: 8px;
 }
 
 .subtask-priority-group {
-  margin-top: 4px;
+  margin-top: 8px;
 }
 
 .subtask-priority-group button {
-  padding: 6px 0;
-  font-size: 1.1rem;
+  padding: 8px 0;
+  font-size: 1.2rem;
 }
 
-/* Custom scrollbar for better mobile feel */
+/* Custom scrollbar */
 .subtasks-scroll-container::-webkit-scrollbar {
-  width: 4px;
+  width: 6px;
 }
 
 .subtasks-scroll-container::-webkit-scrollbar-thumb {

@@ -32,7 +32,7 @@ export function TaskList({ tasks }: ITaskListProps) {
     <div className="task-list">
       <ul>
         {sortedTasks.map((task) => (
-          <li key={task.id} className={`task-item priority-${task.priority} state-${task.state}`}>
+          <li key={task.id} className={`task-card priority-${task.priority} state-${task.state}`}>
             <div className="task-header">
               <span className="task-priority" title={`Priority ${task.priority}`}>
                 {PRIORITY_EMOJI[task.priority]}
