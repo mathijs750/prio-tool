@@ -185,7 +185,7 @@ dialog::backdrop {
 
 .button-group button.active {
   background: var(--accent);
-  color: contrast-color(var(--accent));
+  color: var(--bg);
   border-color: var(--accent);
   transform: scale(1.05);
 }
@@ -209,7 +209,7 @@ dialog::backdrop {
 
 .modal-actions button.primary {
   background: var(--accent);
-  color: contrast-color(var(--accent));
+  color: var(--bg);
   border-color: var(--accent);
 }
 
@@ -257,35 +257,54 @@ dialog::backdrop {
 }
 
 .task-card {
+  position: relative;
+  overflow: hidden;
   border-radius: var(--radius);
   padding: 0.88rem;
   box-shadow: var(--shadow);
-  color: contrast-color(var(--bg));
+  color: var(--text);
   margin-bottom: 0.66rem;
   transition: transform 0.2s ease;
   border: var(--border-width) solid var(--border);
 }
 
 .task-card.priority-A {
-  border-inline-start: 0.27rem solid var(--prio-high);
+  border-inline-start: 0.3125rem solid var(--prio-high);
 }
 
 .task-card.priority-B {
-  border-inline-start: 0.27rem solid var(--prio-med);
+  border-inline-start: 0.3125rem solid var(--prio-med);
 }
 
 .task-card.priority-C {
-  border-inline-start: 0.27rem solid var(--prio-low);
+  border-inline-start: 0.3125rem solid var(--prio-low);
+}
+
+.state-done {
+  opacity: 0.5;
+}
+
+.state-done .task-description,
+.state-done .subtask-description {
+  text-decoration: line-through;
+}
+
+.task-timer-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: var(--accent);
+  opacity: 0.2;
+  z-index: 0;
+  transition: width 1s linear;
 }
 
 .task-header {
+  position: relative;
+  z-index: 1;
   display: flex;
   gap: var(--spacing);
-  align-items: center;
-}
-
-.task-priority {
-  display: flex;
   align-items: center;
 }
 
@@ -294,20 +313,43 @@ dialog::backdrop {
   flex: 1;
 }
 
-.task-size {
+.task-meta {
   display: flex;
   align-items: center;
+  gap: 0.5rem;
 }
 
-.state-done {
-  opacity: 0.5;
+.task-actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
 }
 
-.state-done .task-description {
-  text-decoration: line-through;
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.icon-btn:hover {
+  background: var(--social-bg);
+}
+
+.icon-btn .material-icons {
+  font-size: 1.5rem;
 }
 
 .task-subtasks {
+  position: relative;
+  z-index: 1;
   margin-top: 0.88rem;
   padding-inline-start: 1.75rem;
   border-inline-start: 0.16rem dashed var(--border);

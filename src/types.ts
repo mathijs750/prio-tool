@@ -31,6 +31,9 @@ export interface ITask {
   priority: Priority;
   state: State;
   subTasks?: ISubTask[];
+  timerDuration?: number; // Total duration in ms
+  timerStartTime?: number; // timestamp when timer started
+  timerActive?: boolean;
 }
 
 /**
