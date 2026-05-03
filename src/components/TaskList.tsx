@@ -42,6 +42,20 @@ export function TaskList({ tasks }: ITaskListProps) {
                 {SIZE_EMOJI[task.size] || task.size}
               </span>
             </div>
+            {task.subTasks && task.subTasks.length > 0 && (
+              <div className="task-subtasks">
+                <ul>
+                  {[...task.subTasks]
+                    .sort((a, b) => PRIORITY_WEIGHT[a.priority] - PRIORITY_WEIGHT[b.priority])
+                    .map((st, i) => (
+                      <li key={i} className="subtask-item">
+                        <span className="subtask-priority">{PRIORITY_EMOJI[st.priority]}</span>
+                        <span className="subtask-description">{st.description}</span>
+                      </li>
+                    ))}
+                </ul>
+              </div>
+            )}
           </li>
         ))}
       </ul>

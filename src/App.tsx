@@ -20,6 +20,11 @@ function App() {
       size: 'tree',
       priority: 'C',
       state: 'in-progress',
+      subTasks: [
+        { description: 'Design 3D model', priority: 'A' },
+        { description: 'Implement rendering engine', priority: 'B' },
+        { description: 'Add texture support', priority: 'C' },
+      ],
     },
     {
       id: '5',

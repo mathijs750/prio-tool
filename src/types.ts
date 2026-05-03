@@ -14,6 +14,14 @@ export type Size = 'seed' | 'plant' | 'tree';
 export type State = 'todo' | 'in-progress' | 'done';
 
 /**
+ * Represents a sub-task item.
+ */
+export interface ISubTask {
+  description: string;
+  priority: Priority;
+}
+
+/**
  * Represents a task item.
  */
 export interface ITask {
@@ -22,6 +30,7 @@ export interface ITask {
   size: Size;
   priority: Priority;
   state: State;
+  subTasks?: ISubTask[];
 }
 
 /**

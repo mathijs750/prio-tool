@@ -289,3 +289,59 @@ p {
 .state-done .task-description {
   text-decoration: line-through;
 }
+.task-subtasks {
+  margin-top: 12px;
+  padding-left: 28px;
+  border-left: 2px dashed var(--border);
+}
+
+.task-subtasks ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.subtask-item {
+  font-size: 0.9rem;
+  color: var(--text);
+  margin-bottom: 4px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.subtask-priority {
+  font-size: 0.8rem;
+  min-width: 1.2rem;
+}
+
+.subtask-description {
+  flex: 1;
+}
+
+/* Modal Sub-tasks */
+.subtasks-scroll-container {
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: 8px;
+  padding-right: 4px;
+}
+
+.subtask-priority-group {
+  margin-top: 4px;
+}
+
+.subtask-priority-group button {
+  padding: 6px 0;
+  font-size: 1.1rem;
+}
+
+/* Custom scrollbar for better mobile feel */
+.subtasks-scroll-container::-webkit-scrollbar {
+  width: 4px;
+}
+
+.subtasks-scroll-container::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 10px;
+}
