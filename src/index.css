@@ -65,8 +65,7 @@
 }
 
 #root {
-  width: 1126px;
-  max-width: 100%;
+  width: min(100%, 600px);
   margin: 0 auto;
   min-height: 100svh;
   display: flex;
@@ -107,31 +106,25 @@ h2 {
   }
 }
 
-/* Modal Styles */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  padding: 20px;
-  backdrop-filter: blur(4px);
-}
-
-.modal-content {
+/* Modal Styles (Native Dialog) */
+dialog.modal-content {
   background: var(--bg-modal);
   padding: 32px;
   border-radius: var(--radius);
-  width: 100%;
-  max-width: 440px;
+  width: min(calc(80vw), 500px);
   box-shadow: var(--shadow);
   border: var(--border-width) solid var(--border);
 }
+
+dialog:not([open]) {
+  display: none;
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+}
+
 
 .task-preview {
   color: var(--text-h);
