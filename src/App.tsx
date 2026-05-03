@@ -6,7 +6,7 @@ import { QuickAdd } from './components/QuickAdd'
 import { AddTaskModal } from './components/AddTaskModal'
 import { TimerFinishedModal } from './components/TimerFinishedModal'
 
-const TIMER_MS = 30 * 1000;
+const TIMER_MS = 30 * 60 * 1000;
 const STORAGE_KEY = 'prio-tasks';
 
 /**
