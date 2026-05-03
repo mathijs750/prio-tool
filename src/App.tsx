@@ -1,9 +1,12 @@
 import { useState } from 'react'
+import './index.css'
 import type { ITask } from './types'
-import { TaskList } from './TaskList'
+import { TaskList } from './components/TaskList'
+import { QuickAdd } from './components/QuickAdd'
+import { AddTaskModal } from './components/AddTaskModal'
 
 function App() {
-  const [tasks] = useState<ITask[]>([
+  const [tasks, setTasks] = useState<ITask[]>([
     {
       id: '2',
       description: 'Setup project structure',
@@ -27,12 +30,37 @@ function App() {
     },
   ])
 
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [pendingDescription, setPendingDescription] = useState('')
+
+  const handleOpenModal = (description: string) => {
+    setPendingDescription(description)
+    setIsModalOpen(true)
+  }
+
+  const handleAddTask = (taskData: Omit<ITask, 'id' | 'state'>) => {
+    const newTask: ITask = {
+      ...taskData,
+      id: crypto.randomUUID(),
+      state: 'todo',
+    }
+    setTasks((prev) => [...prev, newTask])
+  }
+
   return (
     <>
       <section className="task-list">
-        <h1>Priority Task List</h1>
         <TaskList tasks={tasks} />
       </section>
+
+      <QuickAdd onAdd={handleOpenModal} />
+      
+      <AddTaskModal
+        isOpen={isModalOpen}
+        description={pendingDescription}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handleAddTask}
+      />
     </>
   )
 }
