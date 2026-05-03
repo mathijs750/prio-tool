@@ -25,6 +25,18 @@ function App() {
         { description: 'Textuur ondersteuning toevoegen', priority: 'C' },
       ],
     },
+        {
+      id: '5',
+      description: 'Huis visualisatie bouwen',
+      size: 'tree',
+      priority: 'C',
+      state: 'in-progress',
+      subTasks: [
+        { description: '3D model ontwerpen', priority: 'C' },
+        { description: 'Rendering engine implementeren', priority: 'A' },
+        { description: 'Textuur ondersteuning toevoegen', priority: 'C' },
+      ],
+    },
     {
       id: '5',
       description: 'Prioriteitsalgoritme ontwerpen',

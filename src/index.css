@@ -16,23 +16,25 @@
 
   /* UI Details */
   --border: oklab(88% 0.02 0.05);
-  --border-width: 2px;
-  --radius: 4px;
-  --spacing: 12px;
+  --border-width: 0.125rem;
+  --radius: 0.25rem;
+  --spacing: 0.75rem;
   --font-weight-bold: 600;
 
   --accent: var(--prio-low);
   --social-bg: rgba(60, 50, 40, 0.05);
   --shadow:
-    rgba(60, 50, 40, 0.08) 0px 2px 4px,
-    rgba(60, 50, 40, 0.05) 0px 8px 16px;
+    rgba(60, 50, 40, 0.08) 0px 0.125rem 0.25rem,
+    rgba(60, 50, 40, 0.05) 0px 0.5rem 1rem;
 
   /* Typography */
   --heading: 'Ibarra Real Nova', 'Georgia', serif;
   --sans: 'Avenir', 'Montserrat', sans-serif;
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
+  font-size: 112.5%;
+  font-family: var(--sans);
+  line-height: 1.45;
+  letter-spacing: 0.01rem;
   color-scheme: light dark;
   color: var(--text);
   background: var(--bg);
@@ -42,7 +44,7 @@
   -moz-osx-font-smoothing: grayscale;
 
   @media (max-width: 1024px) {
-    font-size: 16px;
+    font-size: 100%;
   }
 }
 
@@ -59,19 +61,22 @@
     --border: oklab(40% 0.01 0.02);
     --social-bg: rgba(255, 255, 255, 0.05);
 
-    --shadow: rgba(0, 0, 0, 0.2) 0 10px 15px -3px;
+    --shadow: rgba(0, 0, 0, 0.2) 0 0.625rem 0.9375rem -0.1875rem;
     --accent: oklab(75% -0.05 0.02);
   }
 }
 
 #root {
-  width: min(100%, 600px);
-  margin: 0 auto;
-  padding: 1em;
-  min-height: 100svh;
+  width: min(100%, 33.33rem);
+  margin-inline: auto;
+  padding-inline: 1rem;
+  padding-block-start: 1rem;
+  padding-block-end: 0;
+  height: 100dvh;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 body {
@@ -80,6 +85,7 @@ body {
 
 .material-icons {
   color: var(--text-muted);
+  font-size: 1.25em;
 }
 
 .button-group button.active .material-icons,
@@ -96,35 +102,38 @@ h2 {
 }
 
 h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
+  font-size: 3.125rem;
+  letter-spacing: -0.03em;
+  margin-block: 1.75rem;
 
   @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
+    font-size: 2.25rem;
+    margin-block: 1.25rem;
   }
 }
 
 h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
+  font-size: 2rem;
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+  margin-block: 0 0.5rem;
 
   @media (max-width: 1024px) {
-    font-size: 20px;
+    font-size: 1.5rem;
   }
 }
 
 /* Modal Styles (Native Dialog) */
 dialog.modal-content {
   background: var(--bg-modal);
-  padding: 32px;
+  padding: 1.75rem;
   border-radius: var(--radius);
-  width: min(calc(80vw), 500px);
+  width: min(calc(80vi), 28rem);
+  max-height: 90dvh;
+  overflow-y: auto;
   box-shadow: var(--shadow);
   border: var(--border-width) solid var(--border);
+  box-sizing: border-box;
 }
 
 dialog:not([open]) {
@@ -133,24 +142,23 @@ dialog:not([open]) {
 
 dialog::backdrop {
   background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(0.25rem);
 }
 
 
 .task-preview {
   color: var(--text-h);
-  margin-top: 0;
-  margin-bottom: 24px;
+  margin-block: 0 1.33rem;
   font-size: 1.1rem;
 }
 
 .form-group {
-  margin-bottom: 24px;
+  margin-block-end: 1.33rem;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: var(--spacing);
+  margin-block-end: var(--spacing);
   font-weight: var(--font-weight-bold);
   color: var(--text-h);
 }
@@ -172,7 +180,7 @@ dialog::backdrop {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 0.5em;
 }
 
 .button-group button.active {
@@ -185,13 +193,14 @@ dialog::backdrop {
 .modal-actions {
   display: flex;
   justify-content: space-around;
-  gap: 16px;
-  margin-top: 32px;
+  gap: 1rem;
+  margin-block-start: 1.75rem;
 }
 
 .modal-actions button {
   flex: 1;
-  padding: var(--spacing) 24px;
+  padding-block: var(--spacing);
+  padding-inline: 1.33rem;
   border-radius: var(--radius);
   border: var(--border-width) solid var(--border);
   background: var(--bg);
@@ -204,28 +213,26 @@ dialog::backdrop {
   border-color: var(--accent);
 }
 
-/* Quick Add Styles */
 .quick-add-container {
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 1126px;
-  max-width: 100%;
-  padding: 24px;
+  width: calc(100% + 2rem);
+  margin-inline: -1rem;
+  padding-block: 1.33rem;
+  padding-inline: 1rem;
   background: var(--bg);
   border-top: var(--border-width) solid var(--border);
   box-sizing: border-box;
-  z-index: 900;
+  flex-shrink: 0;
+  z-index: 10;
 }
 
 .quick-add-input {
   width: 100%;
-  padding: 16px 24px;
+  padding-block: 0.88rem;
+  padding-inline: 1.33rem;
   border-radius: var(--radius);
   border: var(--border-width) solid var(--border);
   background: var(--social-bg);
-  font-size: 18px;
+  font-size: 1rem;
   box-sizing: border-box;
   outline: none;
   transition: all 0.2s;
@@ -236,32 +243,39 @@ dialog::backdrop {
   border-color: var(--accent);
 }
 
+.task-list {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  padding-block-end: var(--spacing);
+}
+
 .task-list ul {
   list-style: none;
   padding: 0;
-  margin-top: 0;
+  margin-block-start: 0;
 }
 
 .task-card {
   border-radius: var(--radius);
-  padding: 16px;
+  padding: 0.88rem;
   box-shadow: var(--shadow);
   color: contrast-color(var(--bg));
-  margin-bottom: 12px;
+  margin-bottom: 0.66rem;
   transition: transform 0.2s ease;
   border: var(--border-width) solid var(--border);
 }
 
 .task-card.priority-A {
-  border-left: 5px solid var(--prio-high);
+  border-inline-start: 0.27rem solid var(--prio-high);
 }
 
 .task-card.priority-B {
-  border-left: 5px solid var(--prio-med);
+  border-inline-start: 0.27rem solid var(--prio-med);
 }
 
 .task-card.priority-C {
-  border-left: 5px solid var(--prio-low);
+  border-inline-start: 0.27rem solid var(--prio-low);
 }
 
 .task-header {
@@ -294,9 +308,9 @@ dialog::backdrop {
 }
 
 .task-subtasks {
-  margin-top: 16px;
-  padding-left: 32px;
-  border-left: 3px dashed var(--border);
+  margin-top: 0.88rem;
+  padding-inline-start: 1.75rem;
+  border-inline-start: 0.16rem dashed var(--border);
 }
 
 .task-subtasks ul {
@@ -306,9 +320,9 @@ dialog::backdrop {
 }
 
 .subtask-item {
-  font-size: 1rem;
+  font-size: 0.88rem;
   color: var(--text);
-  margin-bottom: 8px;
+  margin-bottom: 0.44rem;
   display: flex;
   gap: var(--spacing);
   align-items: center;
@@ -321,42 +335,42 @@ dialog::backdrop {
 
 /* Modal Sub-tasks Styling */
 .subtasks-scroll-container {
-  max-height: 240px;
+  max-height: 30dvh;
   overflow-y: auto;
   margin-bottom: var(--spacing);
-  padding-right: 8px;
+  padding-right: 0.44rem;
 }
 
 .subtask-row {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 0.22rem;
   margin-bottom: var(--spacing);
-  padding: 8px;
+  padding: 0.44rem;
   background: var(--social-bg);
   border-radius: var(--radius);
 }
 
 .subtask-input-container {
   display: flex;
-  gap: 8px;
+  gap: 0.44rem;
 }
 
 .subtask-input {
   flex: 1;
-  padding: 8px;
+  padding: 0.44rem;
   border-radius: var(--radius);
-  border: 1px solid var(--border);
+  border: 0.05rem solid var(--border);
   background: var(--bg);
   color: var(--text);
 }
 
 .subtask-remove-btn {
-  padding: 4px 8px;
+  padding: 0.22rem 0.44rem;
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 1.2rem;
+  font-size: 1em;
   color: var(--text);
   display: flex;
   align-items: center;
@@ -364,11 +378,11 @@ dialog::backdrop {
 }
 
 .subtask-priority-group {
-  margin-top: 8px;
+  margin-top: 0.44rem;
 }
 
 .subtask-priority-group button {
-  padding: 6px 0;
+  padding: 0.33rem 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -376,9 +390,9 @@ dialog::backdrop {
 
 .add-subtask-btn {
   width: 100%;
-  padding: 8px;
+  padding: 0.44rem;
   background: var(--bg);
-  border: 1px solid var(--border);
+  border: 0.05rem solid var(--border);
   border-radius: var(--radius);
   cursor: pointer;
   color: var(--text);
@@ -386,10 +400,10 @@ dialog::backdrop {
 
 /* Custom scrollbar */
 .subtasks-scroll-container::-webkit-scrollbar {
-  width: 6px;
+  width: 0.33rem;
 }
 
 .subtasks-scroll-container::-webkit-scrollbar-thumb {
   background: var(--border);
-  border-radius: 10px;
+  border-radius: 0.5rem;
 }

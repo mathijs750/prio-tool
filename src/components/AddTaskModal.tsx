@@ -82,7 +82,7 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
         onClose();
       }}
     >
-      <p className="task-preview"><em>"{description}"</em> is een:</p>
+      <h2 >{description}</h2>
       
       <form onSubmit={handleSubmit}>
         
@@ -162,7 +162,7 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
                 onClick={() => setPriority(p)}
                 title={`Urgentie ${p}`}
               >
-                <span className="material-icons">{PRIORITY_ICON[p]}</span> {p}
+                <span className="material-icons">{PRIORITY_ICON[p]}</span>
               </button>
             ))}
           </div>
