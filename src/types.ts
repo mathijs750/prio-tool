@@ -34,20 +34,19 @@ export interface ITask {
 }
 
 /**
- * Priority to emoji mapping.
+ * Priority to Material Icon mapping.
  */
-export const PRIORITY_EMOJI: Record<Priority, string> = {
-  'A': '⬆️',
-  'B': '➖',
-  'C': '⬇️',
+export const PRIORITY_ICON: Record<Priority, string> = {
+  'A': 'keyboard_double_arrow_up',
+  'B': 'keyboard_arrow_up',
+  'C': 'horizontal_rule',
 };
 
 /**
- * Size to emoji mapping.
+ * Size to Material Icon mapping.
  */
-export const SIZE_EMOJI: Record<Size, string> = {
-  'seed': '🌱',
-  'plant': '🌿',
-  'tree': '🌳',
+export const SIZE_ICON: Record<Size, string> = {
+  'seed': 'eco',
+  'plant': 'spa',
+  'tree': 'forest',
 };
-

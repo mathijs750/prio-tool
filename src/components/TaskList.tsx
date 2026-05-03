@@ -1,4 +1,4 @@
-import { PRIORITY_EMOJI, SIZE_EMOJI } from '../types';
+import { PRIORITY_ICON, SIZE_ICON } from '../types';
 import type { ITask, Priority } from '../types';
 
 /**
@@ -34,12 +34,12 @@ export function TaskList({ tasks }: ITaskListProps) {
         {sortedTasks.map((task) => (
           <li key={task.id} className={`task-card priority-${task.priority} state-${task.state}`}>
             <div className="task-header">
-              <span className="task-priority" title={`Priority ${task.priority}`}>
-                {PRIORITY_EMOJI[task.priority]}
+              <span className="material-icons task-priority" title={`Priority ${task.priority}`}>
+                {PRIORITY_ICON[task.priority]}
               </span>
               <span className="task-description">{task.description}</span>
-              <span className="task-size" title={`Size: ${task.size}`}>
-                {SIZE_EMOJI[task.size] || task.size}
+              <span className="material-icons task-size" title={`Size: ${task.size}`}>
+                {SIZE_ICON[task.size]}
               </span>
             </div>
             {task.subTasks && task.subTasks.length > 0 && (
@@ -49,7 +49,7 @@ export function TaskList({ tasks }: ITaskListProps) {
                     .sort((a, b) => PRIORITY_WEIGHT[a.priority] - PRIORITY_WEIGHT[b.priority])
                     .map((st, i) => (
                       <li key={i} className="subtask-item">
-                        <span className="subtask-priority">{PRIORITY_EMOJI[st.priority]}</span>
+                        <span className="material-icons subtask-priority">{PRIORITY_ICON[st.priority]}</span>
                         <span className="subtask-description">{st.description}</span>
                       </li>
                     ))}

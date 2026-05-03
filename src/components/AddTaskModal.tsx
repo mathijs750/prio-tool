@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { PRIORITY_EMOJI, SIZE_EMOJI } from '../types';
+import { PRIORITY_ICON, SIZE_ICON } from '../types';
 import type { Priority, Size, ITask, ISubTask } from '../types';
 
 /**
@@ -97,7 +97,7 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
                 onClick={() => setSize(s)}
                 title={`Size ${s}`}
               >
-                {SIZE_EMOJI[s]}
+                <span className="material-icons">{SIZE_ICON[s]}</span>
               </button>
             ))}
           </div>
@@ -134,7 +134,7 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
                         className={st.priority === p ? 'active' : ''}
                         onClick={() => handleSubTaskPriorityChange(index, p)}
                       >
-                        {PRIORITY_EMOJI[p]}
+                        <span className="material-icons">{PRIORITY_ICON[p]}</span>
                       </button>
                     ))}
                   </div>
@@ -162,7 +162,7 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
                 onClick={() => setPriority(p)}
                 title={`Priority ${p}`}
               >
-                {PRIORITY_EMOJI[p]} {p}
+                <span className="material-icons">{PRIORITY_ICON[p]}</span> {p}
               </button>
             ))}
           </div>
