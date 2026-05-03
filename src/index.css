@@ -1,34 +1,33 @@
 :root {
   /* The Paper Base */
   --bg: oklab(95% 0.01 0.03);
-  /* Warm Cream/Parchment */
   --bg-card: oklab(97% 0.01 0.04);
-  /* Slightly lighter for card depth */
+  --bg-modal: oklab(95% 0.01 0.03);
 
   /* The Ink */
   --text: oklab(25% 0.02 0.03);
-  /* Deep Sepia (better than pure black) */
+  --text-h: oklab(25% 0.02 0.03);
   --text-muted: oklab(50% 0.02 0.03);
-  /* Faded ink for sub-tasks */
 
   /* Priority Colors (Pastel but legible) */
-  /* Priority "Stamps" (Dusty, faded pastels) */
   --prio-high: oklab(75% 0.08 0.04);
-  /* Dusty Rose / Red Wax Seal */
   --prio-med: oklab(82% 0.02 0.10);
-  /* Antique Gold / Ochre */
   --prio-low: oklab(80% -0.05 0.05);
-  /* Sage / Dried Eucalyptus */
 
   /* UI Details */
   --border: oklab(88% 0.02 0.05);
-  /* Subtle paper-fold line */
+  --border-width: 2px;
+  --radius: 4px;
+  --spacing: 12px;
+  --font-weight-bold: 600;
+
+  --accent: var(--prio-low);
+  --social-bg: rgba(60, 50, 40, 0.05);
   --shadow:
     rgba(60, 50, 40, 0.08) 0px 2px 4px,
     rgba(60, 50, 40, 0.05) 0px 8px 16px;
-  /* Warm-toned shadows */
 
-  /* Typography: Mix a Serif for that "typed" feel */
+  /* Typography */
   --heading: 'Ibarra Real Nova', 'Georgia', serif;
   --sans: 'Avenir', 'Montserrat', sans-serif;
 
@@ -50,19 +49,18 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: oklab(25% 0.01 0.02);
+    --bg-card: oklab(28% 0.01 0.02);
+    --bg-modal: oklab(25% 0.01 0.02);
+
     --text: oklab(90% 0.005 0.01);
     --text-h: oklab(90% 0.005 0.01);
     --text-muted: oklab(70% 0.01 0.02);
-    --border: oklab(40% 0.01 0.02);
-    --accent: oklab(75% -0.05 0.02);
 
-    /* Dark mode background tints */
-    --prio-high-bg: oklab(30% 0.04 0.02);
-    --prio-med-bg: oklab(32% 0.02 0.04);
-    --prio-low-bg: oklab(30% -0.03 0.02);
+    --border: oklab(40% 0.01 0.02);
+    --social-bg: rgba(255, 255, 255, 0.05);
 
     --shadow: rgba(0, 0, 0, 0.2) 0 10px 15px -3px;
-
+    --accent: oklab(75% -0.05 0.02);
   }
 }
 
@@ -84,7 +82,7 @@ h1,
 h2 {
   font-family: var(--heading);
   color: var(--text-h);
-  font-weight: 600;
+  font-weight: var(--font-weight-bold);
 }
 
 h1 {
@@ -126,17 +124,18 @@ h2 {
 }
 
 .modal-content {
-  background: var(--bg);
+  background: var(--bg-modal);
   padding: 32px;
-  border-radius: 4px;
+  border-radius: var(--radius);
   width: 100%;
   max-width: 440px;
   box-shadow: var(--shadow);
-  border: 2px solid var(--border);
+  border: var(--border-width) solid var(--border);
 }
 
 .task-preview {
   color: var(--text-h);
+  margin-top: 0;
   margin-bottom: 24px;
   font-size: 1.1rem;
 }
@@ -147,23 +146,23 @@ h2 {
 
 .form-group label {
   display: block;
-  margin-bottom: 12px;
-  font-weight: 600;
+  margin-bottom: var(--spacing);
+  font-weight: var(--font-weight-bold);
   color: var(--text-h);
 }
 
 .button-group {
   display: flex;
-  gap: 12px;
+  gap: var(--spacing);
 }
 
 .button-group button {
   flex: 1;
-  padding: 12px;
-  border: 2px solid var(--border);
+  padding: var(--spacing);
+  border: var(--border-width) solid var(--border);
   background: var(--bg);
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: var(--radius);
   transition: all 0.2s ease-in-out;
   color: var(--text);
 }
@@ -177,19 +176,18 @@ h2 {
 
 .modal-actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-around;
   gap: 16px;
   margin-top: 32px;
 }
 
 .modal-actions button {
-  padding: 12px 24px;
-  border-radius: 4px;
-  border: 2px solid var(--border);
+  flex: 1;
+  padding: var(--spacing) 24px;
+  border-radius: var(--radius);
+  border: var(--border-width) solid var(--border);
   background: var(--bg);
   cursor: pointer;
-  color: var(--text);
-  font-weight: 600;
 }
 
 .modal-actions button.primary {
@@ -208,7 +206,7 @@ h2 {
   max-width: 100%;
   padding: 24px;
   background: var(--bg);
-  border-top: 2px solid var(--border);
+  border-top: var(--border-width) solid var(--border);
   box-sizing: border-box;
   z-index: 900;
 }
@@ -216,8 +214,8 @@ h2 {
 .quick-add-input {
   width: 100%;
   padding: 16px 24px;
-  border-radius: 4px;
-  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  border: var(--border-width) solid var(--border);
   background: var(--social-bg);
   font-size: 18px;
   box-sizing: border-box;
@@ -230,7 +228,6 @@ h2 {
   border-color: var(--accent);
 }
 
-/* Task List Styles */
 .task-list ul {
   list-style: none;
   padding: 16px;
@@ -238,38 +235,30 @@ h2 {
 }
 
 .task-card {
-  border-radius: 4px;
+  border-radius: var(--radius);
   padding: 16px;
   box-shadow: var(--shadow);
-  color: contrast-color(currentcolor);
-  /* Default fallback or relative to card bg */
+  color: contrast-color(var(--bg));
   margin-bottom: 12px;
   transition: transform 0.2s ease;
-  border: 2px solid var(--border);
+  border: var(--border-width) solid var(--border);
 }
 
-
 .task-card.priority-A {
-  background: var(--prio-high-bg);
   border-left: 5px solid var(--prio-high);
-  color: contrast-color(var(--prio-high-bg));
 }
 
 .task-card.priority-B {
-  background: var(--prio-med-bg);
   border-left: 5px solid var(--prio-med);
-  color: contrast-color(var(--prio-med-bg));
 }
 
 .task-card.priority-C {
-  background: var(--prio-low-bg);
   border-left: 5px solid var(--prio-low);
-  color: contrast-color(var(--prio-low-bg));
 }
 
 .task-header {
   display: flex;
-  gap: 12px;
+  gap: var(--spacing);
   align-items: center;
 }
 
@@ -278,8 +267,7 @@ h2 {
 }
 
 .task-description {
-  /* No need to hardcode var(--text-h) if card color is set by contrast-color */
-  font-weight: 600;
+  font-weight: var(--font-weight-bold);
   flex: 1;
 }
 
@@ -314,16 +302,49 @@ h2 {
   color: var(--text);
   margin-bottom: 8px;
   display: flex;
-  gap: 12px;
+  gap: var(--spacing);
   align-items: center;
 }
 
-/* Modal Sub-tasks */
+/* Modal Sub-tasks Styling */
 .subtasks-scroll-container {
   max-height: 240px;
   overflow-y: auto;
-  margin-bottom: 12px;
+  margin-bottom: var(--spacing);
   padding-right: 8px;
+}
+
+.subtask-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: var(--spacing);
+  padding: 8px;
+  background: var(--social-bg);
+  border-radius: var(--radius);
+}
+
+.subtask-input-container {
+  display: flex;
+  gap: 8px;
+}
+
+.subtask-input {
+  flex: 1;
+  padding: 8px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+}
+
+.subtask-remove-btn {
+  padding: 4px 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: var(--text);
 }
 
 .subtask-priority-group {
@@ -333,6 +354,16 @@ h2 {
 .subtask-priority-group button {
   padding: 8px 0;
   font-size: 1.2rem;
+}
+
+.add-subtask-btn {
+  width: 100%;
+  padding: 8px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  color: var(--text);
 }
 
 /* Custom scrollbar */

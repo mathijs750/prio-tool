@@ -92,20 +92,20 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
               <label>Subtasks {size === 'tree' ? '(Vereist)' : '(Optioneel)'}</label>
               <div className="subtasks-scroll-container">
                 {subTasks.map((st, index) => (
-                  <div key={index} className="subtask-input-row" style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginBottom: '12px', padding: '8px', background: 'var(--social-bg)', borderRadius: '8px' }}>
-                    <div style={{ display: 'flex', gap: '8px' }}>
+                  <div key={index} className="subtask-row">
+                    <div className="subtask-input-container">
                       <input
                         type="text"
+                        className="subtask-input"
                         value={st.description}
                         onChange={(e) => handleSubTaskDescChange(index, e.target.value)}
                         placeholder={`Subtask ${index + 1}`}
-                        style={{ flex: 1, padding: '8px', borderRadius: '4px', border: '1px solid var(--border)' }}
                         required={size === 'tree' && index === 0}
                       />
                       <button 
                         type="button" 
-                        onClick={() => handleRemoveSubTask(index)} 
-                        style={{ padding: '4px 8px', background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2rem' }}
+                        className="subtask-remove-btn"
+                        onClick={() => handleRemoveSubTask(index)}
                       >
                         ×
                       </button>
@@ -127,8 +127,8 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
               </div>
               <button 
                 type="button" 
-                onClick={handleAddSubTask} 
-                style={{ width: '100%', padding: '8px', background: 'var(--bg)', border: '1px dashed var(--border)', borderRadius: '4px', cursor: 'pointer' }}
+                className="add-subtask-btn"
+                onClick={handleAddSubTask}
               >
                 + Voeg subtask toe
               </button>
