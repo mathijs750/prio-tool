@@ -24,13 +24,14 @@ export function QuickAdd({ onAdd }: IQuickAddProps) {
     <div className="quick-add-container">
       <input
         type="text"
-        placeholder="Voeg een taak toe..."
+        placeholder="Wat moet je doen?"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
         onKeyDown={handleKeyDown}
         className="quick-add-input"
-        aria-label="New task description"
+        aria-label="Omschrijving nieuwe taak"
       />
     </div>
   );
+
 }

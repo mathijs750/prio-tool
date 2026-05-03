@@ -67,6 +67,7 @@
 #root {
   width: min(100%, 600px);
   margin: 0 auto;
+  padding: 1em;
   min-height: 100svh;
   display: flex;
   flex-direction: column;
@@ -237,7 +238,7 @@ dialog::backdrop {
 
 .task-list ul {
   list-style: none;
-  padding: 16px;
+  padding: 0;
   margin-top: 0;
 }
 

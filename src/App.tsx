@@ -4,31 +4,30 @@ import type { ITask } from './types'
 import { TaskList } from './components/TaskList'
 import { QuickAdd } from './components/QuickAdd'
 import { AddTaskModal } from './components/AddTaskModal'
-
 function App() {
   const [tasks, setTasks] = useState<ITask[]>([
     {
       id: '2',
-      description: 'Setup project structure',
+      description: 'Projectstructuur opzetten',
       size: 'seed',
       priority: 'B',
       state: 'done',
     },
     {
       id: '3',
-      description: 'Build the house visualization',
+      description: 'Huis visualisatie bouwen',
       size: 'tree',
       priority: 'C',
       state: 'in-progress',
       subTasks: [
-        { description: 'Design 3D model', priority: 'A' },
-        { description: 'Implement rendering engine', priority: 'B' },
-        { description: 'Add texture support', priority: 'C' },
+        { description: '3D model ontwerpen', priority: 'C' },
+        { description: 'Rendering engine implementeren', priority: 'A' },
+        { description: 'Textuur ondersteuning toevoegen', priority: 'C' },
       ],
     },
     {
       id: '5',
-      description: 'Design the priority algorithm',
+      description: 'Prioriteitsalgoritme ontwerpen',
       size: 'plant',
       priority: 'A',
       state: 'todo',
@@ -54,10 +53,10 @@ function App() {
 
   return (
     <>
-      <section id="center">
-        <TaskList tasks={tasks} />
-      </section>
+      <h1>Mijn Taken</h1>
 
+      <TaskList tasks={tasks} />
+      
       <QuickAdd onAdd={handleOpenModal} />
       
       <AddTaskModal

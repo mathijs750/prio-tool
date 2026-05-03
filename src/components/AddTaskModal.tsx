@@ -87,7 +87,7 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
       <form onSubmit={handleSubmit}>
         
         <div className="form-group">
-          <label>Formaat</label>
+          <label>Omvang</label>
           <div className="button-group">
             {(['seed', 'plant', 'tree'] as Size[]).map((s) => (
               <button
@@ -95,7 +95,7 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
                 type="button"
                 className={size === s ? 'active' : ''}
                 onClick={() => setSize(s)}
-                title={`Size ${s}`}
+                title={`Omvang ${s}`}
               >
                 <span className="material-icons">{SIZE_ICON[s]}</span>
               </button>
@@ -105,7 +105,7 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
 
         {showSubTasks && (
           <div className="form-group">
-            <label>Subtasks {size === 'tree' ? '(Vereist)' : '(Optioneel)'}</label>
+            <label>Deeltaken {size === 'tree' ? '(Verplicht)' : '(Optioneel)'}</label>
             <div className="subtasks-scroll-container">
               {subTasks.map((st, index) => (
                 <div key={index} className="subtask-row">
@@ -115,7 +115,7 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
                       className="subtask-input"
                       value={st.description}
                       onChange={(e) => handleSubTaskDescChange(index, e.target.value)}
-                      placeholder={`Subtask ${index + 1}`}
+                      placeholder={`Waar bestaat ${description} uit?`}
                       required={size === 'tree' && index === 0}
                     />
                     <button 
@@ -123,7 +123,7 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
                       className="subtask-remove-btn"
                       onClick={() => handleRemoveSubTask(index)}
                     >
-                      ×
+                      <span className="material-icons">close</span>
                     </button>
                   </div>
                   <div className="button-group subtask-priority-group">
@@ -146,7 +146,7 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
               className="add-subtask-btn"
               onClick={handleAddSubTask}
             >
-              + Voeg subtask toe
+              <span className="material-icons" style={{ fontSize: '1rem' }}>add</span> Voeg deeltaak toe
             </button>
           </div>
         )}
@@ -160,7 +160,7 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
                 type="button"
                 className={priority === p ? 'active' : ''}
                 onClick={() => setPriority(p)}
-                title={`Priority ${p}`}
+                title={`Urgentie ${p}`}
               >
                 <span className="material-icons">{PRIORITY_ICON[p]}</span> {p}
               </button>
@@ -170,8 +170,8 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
 
 
         <div className="modal-actions">
-          <button type="button" onClick={onClose}>Annuleer</button>
-          <button type="submit" className="primary">Voeg taak toe</button>
+          <button type="button" onClick={onClose}>Annuleren</button>
+          <button type="submit" className="primary">Toevoegen</button>
         </div>
       
       </form>
