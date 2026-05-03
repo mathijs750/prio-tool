@@ -6,7 +6,7 @@ export type Priority = 'A' | 'B' | 'C';
 /**
  * Complexity sizes for tasks.
  */
-export type Size = 'house' | 'wall' | 'brick';
+export type Size = 'seed' | 'plant' | 'tree';
 
 /**
  * Execution states for tasks.
@@ -23,3 +23,22 @@ export interface ITask {
   priority: Priority;
   state: State;
 }
+
+/**
+ * Priority to emoji mapping.
+ */
+export const PRIORITY_EMOJI: Record<Priority, string> = {
+  'A': '⬆️',
+  'B': '➖',
+  'C': '⬇️',
+};
+
+/**
+ * Size to emoji mapping.
+ */
+export const SIZE_EMOJI: Record<Size, string> = {
+  'seed': '🌱',
+  'plant': '🌿',
+  'tree': '🌳',
+};
+

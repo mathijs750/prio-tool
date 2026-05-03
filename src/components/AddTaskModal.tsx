@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { PRIORITY_EMOJI, SIZE_EMOJI } from '../types';
 import type { Priority, Size, ITask } from '../types';
 
 /**
@@ -16,7 +17,7 @@ interface IAddTaskModalProps {
  */
 export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTaskModalProps) {
   const [priority, setPriority] = useState<Priority>('B');
-  const [size, setSize] = useState<Size>('wall');
+  const [size, setSize] = useState<Size>('plant');
 
   if (!isOpen) return null;
 
@@ -42,8 +43,9 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
                   type="button"
                   className={priority === p ? 'active' : ''}
                   onClick={() => setPriority(p)}
+                  title={`Priority ${p}`}
                 >
-                  {p}
+                  {PRIORITY_EMOJI[p]} {p}
                 </button>
               ))}
             </div>
@@ -52,14 +54,15 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
           <div className="form-group">
             <label>Size</label>
             <div className="button-group">
-              {(['brick', 'wall', 'house'] as Size[]).map((s) => (
+              {(['seed', 'plant', 'tree'] as Size[]).map((s) => (
                 <button
                   key={s}
                   type="button"
                   className={size === s ? 'active' : ''}
                   onClick={() => setSize(s)}
+                  title={`Size ${s}`}
                 >
-                  {s}
+                  {SIZE_EMOJI[s]}
                 </button>
               ))}
             </div>

@@ -247,6 +247,13 @@ p {
 .task-description {
   color: var(--text-h);
   font-weight: 500;
+  flex: 1;
+}
+
+.task-size {
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
 }
 
 .task-details {
@@ -270,4 +277,11 @@ p {
 
 .priority-C {
   border-left: 4px solid #10b981;
+}
+.task-footer {
+  margin-top: 8px;
+  font-size: 0.8rem;
+  color: var(--text);
+  border-top: 1px solid var(--border);
+  padding-top: 4px;
 }

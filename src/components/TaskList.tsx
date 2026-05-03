@@ -1,3 +1,4 @@
+import { PRIORITY_EMOJI, SIZE_EMOJI } from '../types';
 import type { ITask, Priority } from '../types';
 
 /**
@@ -31,11 +32,18 @@ export function TaskList({ tasks }: ITaskListProps) {
     <div className="task-list">
       <ul>
         {sortedTasks.map((task) => (
-          <li key={task.id} className={`task-item priority-${task.priority} task-state state-${task.state}`}>
+          <li key={task.id} className={`task-item priority-${task.priority} state-${task.state}`}>
             <div className="task-header">
-              <span className="task-priority">[{task.priority}]</span>
+              <span className="task-priority" title={`Priority ${task.priority}`}>
+                {PRIORITY_EMOJI[task.priority]}
+              </span>
               <span className="task-description">{task.description}</span>
-              <span className="task-size">[{task.size}]</span>
+              <span className="task-size" title={`Size: ${task.size}`}>
+                {SIZE_EMOJI[task.size] || task.size}
+              </span>
+            </div>
+            <div className="task-footer">
+              <span className="task-status">Status: {task.state}</span>
             </div>
           </li>
         ))}

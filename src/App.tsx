@@ -10,21 +10,21 @@ function App() {
     {
       id: '2',
       description: 'Setup project structure',
-      size: 'brick',
+      size: 'seed',
       priority: 'B',
       state: 'done',
     },
     {
       id: '3',
       description: 'Build the house visualization',
-      size: 'house',
+      size: 'tree',
       priority: 'C',
       state: 'in-progress',
     },
     {
       id: '5',
       description: 'Design the priority algorithm',
-      size: 'wall',
+      size: 'plant',
       priority: 'A',
       state: 'todo',
     },
@@ -49,7 +49,7 @@ function App() {
 
   return (
     <>
-      <section className="task-list">
+      <section id="center">
         <TaskList tasks={tasks} />
       </section>
 
