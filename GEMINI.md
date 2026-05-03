@@ -12,6 +12,7 @@ This tool is designed to make prioritising tasks easier for users. Task kan have
 
 ## Coding Style
 
+- Always use pnpm for package management.
 - Use 2 spaces for indentation.
 - Prefix interface names with `I` (for example, `IUserService`).
 - Always use strict equality (`===` and `!==`).
