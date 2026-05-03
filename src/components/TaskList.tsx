@@ -31,6 +31,14 @@ export function TaskList({ tasks, onComplete, onStartTimer, now }: ITaskListProp
     PRIORITY_WEIGHT[a.priority] - PRIORITY_WEIGHT[b.priority]
   );
 
+  if (sortedTasks.length === 0) {
+    return (
+      <div className="task-list-empty">
+        <p>Je heb geen taken (meer) te doen ✨</p>
+      </div>
+    );
+  }
+
   return (
     <div className="task-list">
       <ul>

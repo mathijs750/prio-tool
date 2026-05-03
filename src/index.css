@@ -250,6 +250,17 @@ dialog::backdrop {
   padding-block-end: var(--spacing);
 }
 
+.task-list-empty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--text-muted);
+  font-style: italic;
+  padding: 2rem;
+}
+
 .task-list ul {
   list-style: none;
   padding: 0;
