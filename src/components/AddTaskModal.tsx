@@ -30,29 +30,12 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-        <h3>New Task</h3>
-        <p className="task-preview">"{description}"</p>
+        <p className="task-preview"><em>"{description}"</em> is een:</p>
         
         <form onSubmit={handleSubmit}>
+          
           <div className="form-group">
-            <label>Priority</label>
-            <div className="button-group">
-              {(['A', 'B', 'C'] as Priority[]).map((p) => (
-                <button
-                  key={p}
-                  type="button"
-                  className={priority === p ? 'active' : ''}
-                  onClick={() => setPriority(p)}
-                  title={`Priority ${p}`}
-                >
-                  {PRIORITY_EMOJI[p]} {p}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="form-group">
-            <label>Size</label>
+            <label>Formaat</label>
             <div className="button-group">
               {(['seed', 'plant', 'tree'] as Size[]).map((s) => (
                 <button
@@ -68,10 +51,30 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
             </div>
           </div>
 
-          <div className="modal-actions">
-            <button type="button" onClick={onClose}>Cancel</button>
-            <button type="submit" className="primary">Create Task</button>
+
+          <div className="form-group">
+            <label>Urgentie</label>
+            <div className="button-group">
+              {(['A', 'B', 'C'] as Priority[]).map((p) => (
+                <button
+                  key={p}
+                  type="button"
+                  className={priority === p ? 'active' : ''}
+                  onClick={() => setPriority(p)}
+                  title={`Priority ${p}`}
+                >
+                  {PRIORITY_EMOJI[p]} {p}
+                </button>
+              ))}
+            </div>
           </div>
+
+
+          <div className="modal-actions">
+            <button type="button" onClick={onClose}>Annuleer</button>
+            <button type="submit" className="primary">Voeg taak toe</button>
+          </div>
+        
         </form>
       </div>
     </div>

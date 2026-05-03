@@ -121,9 +121,12 @@ p {
 }
 
 .task-preview {
-  font-style: italic;
   color: var(--text-h);
   margin-bottom: 20px;
+}
+
+.task-preview em {
+  font-style: italic;
 }
 
 .form-group {
@@ -278,10 +281,11 @@ p {
 .priority-C {
   border-left: 4px solid #10b981;
 }
-.task-footer {
-  margin-top: 8px;
-  font-size: 0.8rem;
-  color: var(--text);
-  border-top: 1px solid var(--border);
-  padding-top: 4px;
+
+.state-done {
+  opacity: 0.5;
+}
+
+.state-done .task-description {
+  text-decoration: line-through;
 }

@@ -42,9 +42,6 @@ export function TaskList({ tasks }: ITaskListProps) {
                 {SIZE_EMOJI[task.size] || task.size}
               </span>
             </div>
-            <div className="task-footer">
-              <span className="task-status">Status: {task.state}</span>
-            </div>
           </li>
         ))}
       </ul>

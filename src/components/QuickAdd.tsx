@@ -24,7 +24,7 @@ export function QuickAdd({ onAdd }: IQuickAddProps) {
     <div className="quick-add-container">
       <input
         type="text"
-        placeholder="Add a task..."
+        placeholder="Voeg een taak toe..."
         value={description}
         onChange={(e) => setDescription(e.target.value)}
         onKeyDown={handleKeyDown}
