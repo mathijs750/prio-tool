@@ -81,7 +81,7 @@ export function TaskList({ tasks, onComplete, onStartTimer, onStopTimer, now }: 
           }
 
           return (
-            <li key={task.id} className={`task-card priority-${task.priority} state-${task.state}`}>
+            <li key={task.id} className={`task-card priority-${task.priority} state-${task.state} size-${task.size}`}>
               {task.timerActive && (
                 <div 
                   className="task-timer-progress" 
@@ -154,7 +154,7 @@ export function TaskList({ tasks, onComplete, onStartTimer, onStopTimer, now }: 
                       {[...task.subTasks]
                         .sort((a, b) => PRIORITY_WEIGHT[a.priority] - PRIORITY_WEIGHT[b.priority])
                         .map((st, i) => (
-                          <li key={i} className="subtask-item">
+                          <li key={i} className={`subtask-item ${st.completed ? 'completed' : ''}`}>
                             <span className="material-icons subtask-priority">{PRIORITY_ICON[st.priority]}</span>
                             <span className="subtask-description">{st.description}</span>
                           </li>

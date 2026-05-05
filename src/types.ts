@@ -19,6 +19,7 @@ export type State = 'todo' | 'in-progress' | 'done';
 export interface ISubTask {
   description: string;
   priority: Priority;
+  completed?: boolean;
 }
 
 /**

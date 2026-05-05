@@ -7,6 +7,7 @@ import { AddTaskModal } from './components/AddTaskModal'
 import { TimerFinishedModal } from './components/TimerFinishedModal'
 import { TimerEstimationModal } from './components/TimerEstimationModal'
 import { TimeSpentPromptModal } from './components/TimeSpentPromptModal'
+import { SubTaskCompletionModal } from './components/SubTaskCompletionModal'
 
 const TIMER_MS = 30 * 60 * 1000;
 const EXTEND_MS = 10 * 60 * 1000;
@@ -42,6 +43,7 @@ function App() {
   const [finishedTimerTask, setFinishedTimerTask] = useState<ITask | null>(null);
   const [taskForEstimation, setTaskForEstimation] = useState<ITask | null>(null);
   const [taskForTimePrompt, setTaskForTimePrompt] = useState<ITask | null>(null);
+  const [taskForSubTaskCompletion, setTaskForSubTaskCompletion] = useState<ITask | null>(null);
   const [now, setNow] = useState(0);
 
   // Persistence
@@ -144,28 +146,55 @@ function App() {
     const task = tasks.find(t => t.id === id);
     if (!task) return;
 
+    if (task.subTasks && task.subTasks.length > 0) {
+      setTaskForSubTaskCompletion(task);
+      return;
+    }
+
+    finalizeTaskCompletion(id);
+  }
+
+  const finalizeTaskCompletion = (id: string, subTasks?: ISubTask[]) => {
+    const task = tasks.find(t => t.id === id);
+    if (!task) return;
+
+    const allSubTasksDone = subTasks ? subTasks.every(st => st.completed) : true;
+    const newState = allSubTasksDone ? 'done' : task.state;
+    const finishedAt = allSubTasksDone ? Date.now() : undefined;
+
     if (task.timerActive && task.timerStartTime) {
       stopServiceWorkerTimer(id);
-      // Early finish: calculate elapsed time and add to timeSpent
+      // calculate elapsed time and add to timeSpent
       const elapsed = Date.now() - task.timerStartTime;
       setTasks(prev => prev.map(t => t.id === id ? { 
         ...t, 
-        state: 'done', 
+        state: newState, 
         timerActive: false,
         timerUsed: true,
         timeSpent: (t.timeSpent || 0) + elapsed,
-        finishedAt: Date.now() 
+        finishedAt,
+        subTasks: subTasks || t.subTasks
       } : t));
-    } else if (task.timerUsed) {
-      // Prompt for time spent if timer was used in the past
+    } else if (task.timerUsed && allSubTasksDone) {
+      // Prompt for time spent if timer was used in the past and finishing
+      if (subTasks) {
+        setTasks(prev => prev.map(t => t.id === id ? { ...t, subTasks } : t));
+      }
       setTaskForTimePrompt(task);
     } else {
       setTasks(prev => prev.map(t => t.id === id ? { 
         ...t, 
-        state: 'done', 
-        finishedAt: Date.now() 
+        state: newState, 
+        finishedAt,
+        subTasks: subTasks || t.subTasks
       } : t));
     }
+  }
+
+  const handleConfirmSubTaskCompletion = (subTasks: ISubTask[]) => {
+    if (!taskForSubTaskCompletion) return;
+    finalizeTaskCompletion(taskForSubTaskCompletion.id, subTasks);
+    setTaskForSubTaskCompletion(null);
   }
 
   const handleConfirmTimePrompt = (minutes: number) => {
@@ -264,13 +293,12 @@ function App() {
       } : t));
     } else if (action === 'done') {
       stopServiceWorkerTimer(id);
-      setTasks(prev => prev.map(t => t.id === id ? { 
-        ...t, 
-        state: 'done', 
-        timerActive: false,
-        timeSpent: (t.timeSpent || 0) + duration,
-        finishedAt: Date.now() 
-      } : t));
+      const task = tasks.find(t => t.id === id);
+      if (task && task.subTasks && task.subTasks.length > 0) {
+        setTaskForSubTaskCompletion(task);
+      } else {
+        finalizeTaskCompletion(id);
+      }
     }
     setFinishedTimerTask(null);
   }
@@ -311,6 +339,12 @@ function App() {
         task={taskForTimePrompt}
         onConfirm={handleConfirmTimePrompt}
         onCancel={() => setTaskForTimePrompt(null)}
+      />
+
+      <SubTaskCompletionModal
+        task={taskForSubTaskCompletion}
+        onConfirm={handleConfirmSubTaskCompletion}
+        onCancel={() => setTaskForSubTaskCompletion(null)}
       />
     </>
   )
