@@ -192,6 +192,38 @@ dialog::backdrop {
   transform: scale(1.05);
 }
 
+.estimation-input-group {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.estimation-input-group input {
+  flex: 1;
+  text-align: center;
+  padding-block: 0.88rem;
+  border-radius: var(--radius);
+  border: var(--border-width) solid var(--border);
+  background: var(--bg);
+  font-size: 1rem;
+  color: var(--text-h);
+}
+
+.adjust-btn {
+  padding: 0.88rem 1rem;
+  border-radius: var(--radius);
+  border: var(--border-width) solid var(--border);
+  background: var(--social-bg);
+  cursor: pointer;
+  font-weight: var(--font-weight-bold);
+  color: var(--text-h);
+  transition: background 0.2s;
+}
+
+.adjust-btn:hover {
+  background: var(--border);
+}
+
 .modal-actions {
   display: flex;
   justify-content: space-around;
@@ -367,6 +399,19 @@ dialog::backdrop {
   margin-top: 0.88rem;
   padding-inline-start: 1.75rem;
   border-inline-start: 0.16rem dashed var(--border);
+}
+
+.task-time-spent {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.task-time-spent .material-icons {
+  font-size: 1rem;
 }
 
 .task-subtasks ul {

@@ -39,6 +39,12 @@ self.addEventListener('message', (event) => {
     }, delay);
 
     activeTimers.set(id, timerId);
+  } else if (event.data && event.data.type === 'STOP_TIMER') {
+    const { id } = event.data.payload;
+    if (activeTimers.has(id)) {
+      clearTimeout(activeTimers.get(id));
+      activeTimers.delete(id);
+    }
   }
 });
 

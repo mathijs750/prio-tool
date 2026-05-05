@@ -34,6 +34,9 @@ export interface ITask {
   timerDuration?: number; // Total duration in ms
   timerStartTime?: number; // timestamp when timer started
   timerActive?: boolean;
+  timerUsed?: boolean;
+  timeSpent?: number; // Total time spent in ms
+  estimatedTime?: number; // Estimated time in ms
   finishedAt?: number; // timestamp when task was completed
 }
 

@@ -5,8 +5,11 @@ import { TaskList } from './components/TaskList'
 import { QuickAdd } from './components/QuickAdd'
 import { AddTaskModal } from './components/AddTaskModal'
 import { TimerFinishedModal } from './components/TimerFinishedModal'
+import { TimerEstimationModal } from './components/TimerEstimationModal'
+import { TimeSpentPromptModal } from './components/TimeSpentPromptModal'
 
 const TIMER_MS = 30 * 60 * 1000;
+const EXTEND_MS = 10 * 60 * 1000;
 const STORAGE_KEY = 'prio-tasks';
 
 /**
@@ -37,6 +40,8 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [pendingDescription, setPendingDescription] = useState('')
   const [finishedTimerTask, setFinishedTimerTask] = useState<ITask | null>(null);
+  const [taskForEstimation, setTaskForEstimation] = useState<ITask | null>(null);
+  const [taskForTimePrompt, setTaskForTimePrompt] = useState<ITask | null>(null);
   const [now, setNow] = useState(0);
 
   // Persistence
@@ -126,46 +131,146 @@ function App() {
     setTasks((prev) => [...prev, newTask])
   }
 
-  const handleCompleteTask = (id: string) => {
-    setTasks(prev => prev.map(t => t.id === id ? { 
-      ...t, 
-      state: 'done', 
-      timerActive: false,
-      finishedAt: Date.now() 
-    } : t));
+  const stopServiceWorkerTimer = (id: string) => {
+    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+      navigator.serviceWorker.controller.postMessage({
+        type: 'STOP_TIMER',
+        payload: { id }
+      });
+    }
   }
 
-  const handleStartTimer = (id: string) => {
-    const startTime = Date.now();
+  const handleCompleteTask = (id: string) => {
     const task = tasks.find(t => t.id === id);
     if (!task) return;
 
+    if (task.timerActive && task.timerStartTime) {
+      stopServiceWorkerTimer(id);
+      // Early finish: calculate elapsed time and add to timeSpent
+      const elapsed = Date.now() - task.timerStartTime;
+      setTasks(prev => prev.map(t => t.id === id ? { 
+        ...t, 
+        state: 'done', 
+        timerActive: false,
+        timerUsed: true,
+        timeSpent: (t.timeSpent || 0) + elapsed,
+        finishedAt: Date.now() 
+      } : t));
+    } else if (task.timerUsed) {
+      // Prompt for time spent if timer was used in the past
+      setTaskForTimePrompt(task);
+    } else {
+      setTasks(prev => prev.map(t => t.id === id ? { 
+        ...t, 
+        state: 'done', 
+        finishedAt: Date.now() 
+      } : t));
+    }
+  }
+
+  const handleConfirmTimePrompt = (minutes: number) => {
+    if (!taskForTimePrompt) return;
+    const timeSpent = minutes * 60 * 1000;
+    setTasks(prev => prev.map(t => t.id === taskForTimePrompt.id ? { 
+      ...t, 
+      state: 'done', 
+      timeSpent,
+      finishedAt: Date.now() 
+    } : t));
+    setTaskForTimePrompt(null);
+  }
+
+  const handleStartTimer = (id: string) => {
+    const task = tasks.find(t => t.id === id);
+    if (!task) return;
+    setTaskForEstimation(task);
+  }
+
+  const handleStopTimer = (id: string) => {
+    const task = tasks.find(t => t.id === id);
+    if (!task || !task.timerActive || !task.timerStartTime) return;
+
+    stopServiceWorkerTimer(id);
+    const elapsed = Date.now() - task.timerStartTime;
+    
     setTasks(prev => prev.map(t => t.id === id ? { 
+      ...t, 
+      timerActive: false,
+      timeSpent: (t.timeSpent || 0) + elapsed,
+      timerStartTime: undefined
+    } : t));
+  }
+
+  const handleConfirmEstimation = (minutes: number) => {
+    if (!taskForEstimation) return;
+    const duration = minutes * 60 * 1000;
+    const startTime = Date.now();
+    
+    setTasks(prev => prev.map(t => t.id === taskForEstimation.id ? { 
       ...t, 
       state: 'in-progress', 
       timerActive: true, 
+      timerUsed: true,
       timerStartTime: startTime,
-      timerDuration: TIMER_MS 
+      timerDuration: duration,
+      estimatedTime: duration
     } : t));
 
     if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
       navigator.serviceWorker.controller.postMessage({
         type: 'START_TIMER',
         payload: {
-          id,
-          description: task.description,
-          endTime: startTime + TIMER_MS
+          id: taskForEstimation.id,
+          description: taskForEstimation.description,
+          endTime: startTime + duration
         }
       });
     }
+    setTaskForEstimation(null);
   }
 
-  const handleTimerFinishResponse = (done: boolean) => {
+  const handleTimerFinishResponse = (action: 'extend' | 'stop' | 'done') => {
     if (!finishedTimerTask) return;
-    if (done) {
-      handleCompleteTask(finishedTimerTask.id);
-    } else {
-      handleStartTimer(finishedTimerTask.id);
+    const id = finishedTimerTask.id;
+    const duration = finishedTimerTask.timerDuration || TIMER_MS;
+
+    if (action === 'extend') {
+      const startTime = Date.now();
+      setTasks(prev => prev.map(t => t.id === id ? { 
+        ...t, 
+        state: 'in-progress', 
+        timerActive: true, 
+        timerStartTime: startTime,
+        timerDuration: EXTEND_MS,
+        timeSpent: (t.timeSpent || 0) + duration
+      } : t));
+
+      if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+        navigator.serviceWorker.controller.postMessage({
+          type: 'START_TIMER',
+          payload: {
+            id,
+            description: finishedTimerTask.description,
+            endTime: startTime + EXTEND_MS
+          }
+        });
+      }
+    } else if (action === 'stop') {
+      stopServiceWorkerTimer(id);
+      setTasks(prev => prev.map(t => t.id === id ? { 
+        ...t, 
+        timerActive: false,
+        timeSpent: (t.timeSpent || 0) + duration
+      } : t));
+    } else if (action === 'done') {
+      stopServiceWorkerTimer(id);
+      setTasks(prev => prev.map(t => t.id === id ? { 
+        ...t, 
+        state: 'done', 
+        timerActive: false,
+        timeSpent: (t.timeSpent || 0) + duration,
+        finishedAt: Date.now() 
+      } : t));
     }
     setFinishedTimerTask(null);
   }
@@ -178,6 +283,7 @@ function App() {
         tasks={tasks} 
         onComplete={handleCompleteTask} 
         onStartTimer={handleStartTimer}
+        onStopTimer={handleStopTimer}
         now={now}
       />
       
@@ -193,6 +299,18 @@ function App() {
       <TimerFinishedModal 
         task={finishedTimerTask} 
         onResponse={handleTimerFinishResponse} 
+      />
+
+      <TimerEstimationModal
+        task={taskForEstimation}
+        onConfirm={handleConfirmEstimation}
+        onCancel={() => setTaskForEstimation(null)}
+      />
+
+      <TimeSpentPromptModal
+        task={taskForTimePrompt}
+        onConfirm={handleConfirmTimePrompt}
+        onCancel={() => setTaskForTimePrompt(null)}
       />
     </>
   )

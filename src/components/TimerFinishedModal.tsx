@@ -6,7 +6,7 @@ import type { ITask } from '../types';
  */
 interface ITimerFinishedModalProps {
   task: ITask | null;
-  onResponse: (done: boolean) => void;
+  onResponse: (action: 'extend' | 'stop' | 'done') => void;
 }
 
 /**
@@ -34,14 +34,15 @@ export function TimerFinishedModal({ task, onResponse }: ITimerFinishedModalProp
       className="modal-content"
       onCancel={(e) => {
         e.preventDefault();
-        onResponse(false); // Default to starting another timer or just closing
+        onResponse('stop'); // Default to stop if cancelled
       }}
     >
       <h2>Timer Klaar!</h2>
       <p className="task-preview">Ben je klaar met: <strong>{task.description}</strong>?</p>
       <div className="modal-actions">
-        <button type="button" onClick={() => onResponse(false)}>Nog een timer</button>
-        <button type="button" className="primary" onClick={() => onResponse(true)}>Ja, klaar!</button>
+        <button type="button" onClick={() => onResponse('extend')}>+10 min</button>
+        <button type="button" onClick={() => onResponse('stop')}>Stop werken</button>
+        <button type="button" className="primary" onClick={() => onResponse('done')}>Taak is klaar</button>
       </div>
     </dialog>
   );

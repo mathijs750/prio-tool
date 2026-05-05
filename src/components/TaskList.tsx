@@ -8,6 +8,7 @@ interface ITaskListProps {
   tasks: ITask[];
   onComplete: (id: string) => void;
   onStartTimer: (id: string) => void;
+  onStopTimer: (id: string) => void;
   now: number;
 }
 
@@ -26,7 +27,7 @@ const PRIORITY_WEIGHT: Record<Priority, number> = {
  * @param props - The component props.
  * @returns The rendered task list.
  */
-export function TaskList({ tasks, onComplete, onStartTimer, now }: ITaskListProps) {
+export function TaskList({ tasks, onComplete, onStartTimer, onStopTimer, now }: ITaskListProps) {
   const sortedTasks = [...tasks].sort((a, b) => 
     PRIORITY_WEIGHT[a.priority] - PRIORITY_WEIGHT[b.priority]
   );
@@ -68,14 +69,23 @@ export function TaskList({ tasks, onComplete, onStartTimer, now }: ITaskListProp
                   <div className="task-actions">
                     {task.state !== 'done' && (
                       <>
-                        {!task.timerActive && (
+                        {!task.timerActive ? (
                           <button 
                             className="icon-btn" 
                             onClick={() => onStartTimer(task.id)}
-                            title="Start 30min timer"
-                            aria-label={`Start 30min timer voor taak: ${task.description}`}
+                            title="Start timer"
+                            aria-label={`Start timer voor taak: ${task.description}`}
                           >
                             <span className="material-icons" aria-hidden="true">timer</span>
+                          </button>
+                        ) : (
+                          <button 
+                            className="icon-btn" 
+                            onClick={() => onStopTimer(task.id)}
+                            title="Pauzeer timer"
+                            aria-label={`Pauzeer timer voor taak: ${task.description}`}
+                          >
+                            <span className="material-icons" aria-hidden="true">pause_circle</span>
                           </button>
                         )}
                         <button 
@@ -92,18 +102,26 @@ export function TaskList({ tasks, onComplete, onStartTimer, now }: ITaskListProp
                 </div>
               </div>
 
-              {task.subTasks && task.subTasks.length > 0 && (
+              {(task.subTasks && task.subTasks.length > 0 || task.timeSpent) && (
                 <div className="task-subtasks">
-                  <ul>
-                    {[...task.subTasks]
-                      .sort((a, b) => PRIORITY_WEIGHT[a.priority] - PRIORITY_WEIGHT[b.priority])
-                      .map((st, i) => (
-                        <li key={i} className="subtask-item">
-                          <span className="material-icons subtask-priority">{PRIORITY_ICON[st.priority]}</span>
-                          <span className="subtask-description">{st.description}</span>
-                        </li>
-                      ))}
-                  </ul>
+                  {task.timeSpent && (
+                    <div className="task-time-spent">
+                      <span className="material-icons">schedule</span>
+                      <span>{Math.round(task.timeSpent / (60 * 1000))} minuten besteed</span>
+                    </div>
+                  )}
+                  {task.subTasks && task.subTasks.length > 0 && (
+                    <ul>
+                      {[...task.subTasks]
+                        .sort((a, b) => PRIORITY_WEIGHT[a.priority] - PRIORITY_WEIGHT[b.priority])
+                        .map((st, i) => (
+                          <li key={i} className="subtask-item">
+                            <span className="material-icons subtask-priority">{PRIORITY_ICON[st.priority]}</span>
+                            <span className="subtask-description">{st.description}</span>
+                          </li>
+                        ))}
+                    </ul>
+                  )}
                 </div>
               )}
             </li>
