@@ -96,8 +96,10 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
                 className={size === s ? 'active' : ''}
                 onClick={() => setSize(s)}
                 title={`Omvang ${s}`}
+                aria-label={`Omvang ${s}`}
+                aria-pressed={size === s}
               >
-                <span className="material-icons">{SIZE_ICON[s]}</span>
+                <span className="material-icons" aria-hidden="true">{SIZE_ICON[s]}</span>
               </button>
             ))}
           </div>
@@ -122,8 +124,9 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
                       type="button" 
                       className="subtask-remove-btn"
                       onClick={() => handleRemoveSubTask(index)}
+                      aria-label="Verwijder deeltaak"
                     >
-                      <span className="material-icons">close</span>
+                      <span className="material-icons" aria-hidden="true">close</span>
                     </button>
                   </div>
                   <div className="button-group subtask-priority-group">
@@ -133,8 +136,11 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
                         type="button"
                         className={st.priority === p ? 'active' : ''}
                         onClick={() => handleSubTaskPriorityChange(index, p)}
+                        title={`Urgentie ${p}`}
+                        aria-label={`Urgentie ${p}`}
+                        aria-pressed={st.priority === p}
                       >
-                        <span className="material-icons">{PRIORITY_ICON[p]}</span>
+                        <span className="material-icons" aria-hidden="true">{PRIORITY_ICON[p]}</span>
                       </button>
                     ))}
                   </div>
@@ -161,8 +167,10 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
                 className={priority === p ? 'active' : ''}
                 onClick={() => setPriority(p)}
                 title={`Urgentie ${p}`}
+                aria-label={`Urgentie ${p}`}
+                aria-pressed={priority === p}
               >
-                <span className="material-icons">{PRIORITY_ICON[p]}</span>
+                <span className="material-icons" aria-hidden="true">{PRIORITY_ICON[p]}</span>
               </button>
             ))}
           </div>

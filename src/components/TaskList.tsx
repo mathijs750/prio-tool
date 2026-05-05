@@ -73,16 +73,18 @@ export function TaskList({ tasks, onComplete, onStartTimer, now }: ITaskListProp
                             className="icon-btn" 
                             onClick={() => onStartTimer(task.id)}
                             title="Start 30min timer"
+                            aria-label={`Start 30min timer voor taak: ${task.description}`}
                           >
-                            <span className="material-icons">timer</span>
+                            <span className="material-icons" aria-hidden="true">timer</span>
                           </button>
                         )}
                         <button 
                           className="icon-btn" 
                           onClick={() => onComplete(task.id)}
                           title="Markeer als klaar"
+                          aria-label={`Markeer taak als klaar: ${task.description}`}
                         >
-                          <span className="material-icons">check_circle</span>
+                          <span className="material-icons" aria-hidden="true">check_circle</span>
                         </button>
                       </>
                     )}
