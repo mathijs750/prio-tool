@@ -72,6 +72,8 @@
   padding-inline: 1rem;
   padding-block-start: 1rem;
   padding-block-end: 0;
+  height: 100svh;
+  /* Fallback for older browsers */
   height: 100dvh;
   display: flex;
   flex-direction: column;
@@ -216,7 +218,8 @@ dialog::backdrop {
 .quick-add-container {
   width: calc(100% + 2rem);
   margin-inline: -1rem;
-  padding-block: 1.33rem;
+  padding-block-start: 1.33rem;
+  padding-block-end: calc(1.33rem + env(safe-area-inset-bottom, 0px));
   padding-inline: 1rem;
   background: var(--bg);
   border-top: var(--border-width) solid var(--border);
