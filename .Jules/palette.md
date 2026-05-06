@@ -1,3 +1,7 @@
 ## 2024-05-18 - Icon-Only Button Accessibility
 **Learning:** Found several icon-only buttons across `TaskList` and `AddTaskModal` that relied solely on `title` attributes. Adding `aria-label` along with `aria-hidden="true"` on the internal icon elements (`<span class="material-icons">`) is critical for screen reader users to understand the button's purpose without hearing the raw ligature text (like "timer" or "check_circle"). Additionally, toggleable priority/size buttons benefit from `aria-pressed` to indicate their current state.
 **Action:** Always ensure icon-only buttons have descriptive `aria-label` attributes and that the actual icon text/ligature is hidden from screen readers using `aria-hidden="true"`. Use `aria-pressed` for toggle states.
+
+## 2024-05-19 - Form Semantics and Explicit Actions
+**Learning:** Found that the "Quick Add" task input relied solely on the "Enter" key (`onKeyDown`) for submission inside a simple `div`. This is a classic micro-UX issue: mobile users may not see a distinct "Go" key depending on their keyboard, and mouse/touch users have no explicit call-to-action on the screen. Additionally, screen readers and browser autofill perform better with standard form semantics.
+**Action:** Always wrap inputs that trigger actions in a `<form>` element and use `onSubmit` instead of listening for `onKeyDown`. When space permits, conditionally render an explicit submit button (like a "plus" or "add" icon) that appears when text is entered, providing a clear visual cue that an action is ready.
