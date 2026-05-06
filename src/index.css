@@ -560,3 +560,16 @@ dialog::backdrop {
   background: var(--border);
   border-radius: 0.5rem;
 }
+.quick-add-form {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.quick-add-submit-btn {
+  position: absolute;
+  right: 1.5rem;
+  background: var(--accent);
+  color: var(--bg);
+  padding: 0.4rem;
+}
