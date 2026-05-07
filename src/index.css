@@ -258,6 +258,9 @@ dialog::backdrop {
   box-sizing: border-box;
   flex-shrink: 0;
   z-index: 10;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
 }
 
 .quick-add-input {
