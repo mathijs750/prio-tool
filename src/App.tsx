@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import './index.css'
-import type { ITask } from './types'
+import type { ITask, ISubTask } from './types'
 import { TaskList } from './components/TaskList'
 import { QuickAdd } from './components/QuickAdd'
 import { AddTaskModal } from './components/AddTaskModal'

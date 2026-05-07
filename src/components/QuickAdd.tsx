@@ -13,10 +13,16 @@ interface IQuickAddProps {
 export function QuickAdd({ onAdd }: IQuickAddProps) {
   const [description, setDescription] = useState('');
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && description.trim()) {
+  const handleSubmit = () => {
+    if (description.trim()) {
       onAdd(description.trim());
       setDescription('');
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSubmit();
     }
   };
 
@@ -31,6 +37,14 @@ export function QuickAdd({ onAdd }: IQuickAddProps) {
         className="quick-add-input"
         aria-label="Omschrijving nieuwe taak"
       />
+      <button
+        type="button"
+        className="icon-btn"
+        onClick={handleSubmit}
+        aria-label="Voeg taak toe"
+      >
+        <span className="material-icons" aria-hidden="true">add_circle</span>
+      </button>
     </div>
   );
 
