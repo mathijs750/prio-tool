@@ -66,7 +66,10 @@ export function TaskList({ tasks, onComplete, onStartTimer, onStopTimer, now }: 
   if (sortedTasks.length === 0) {
     return (
       <div className="task-list-empty">
-        <p>Je heb geen taken (meer) te doen ✨</p>
+        <div>
+          <p>Je hebt geen taken (meer) te doen ✨</p>
+          <p className="task-list-empty-hint">Typ een taak hieronder en druk op Enter om te beginnen</p>
+        </div>
       </div>
     );
   }
