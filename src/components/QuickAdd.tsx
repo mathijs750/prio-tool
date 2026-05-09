@@ -13,8 +13,9 @@ interface IQuickAddProps {
 export function QuickAdd({ onAdd }: IQuickAddProps) {
   const [description, setDescription] = useState('');
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && description.trim()) {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (description.trim()) {
       onAdd(description.trim());
       setDescription('');
     }
@@ -22,15 +23,24 @@ export function QuickAdd({ onAdd }: IQuickAddProps) {
 
   return (
     <div className="quick-add-container">
-      <input
-        type="text"
-        placeholder="Wat moet je doen?"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        onKeyDown={handleKeyDown}
-        className="quick-add-input"
-        aria-label="Omschrijving nieuwe taak"
-      />
+      <form onSubmit={handleSubmit} className="quick-add-form">
+        <input
+          type="text"
+          placeholder="Wat moet je doen?"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          className="quick-add-input"
+          aria-label="Omschrijving nieuwe taak"
+        />
+        <button
+          type="submit"
+          className="quick-add-submit"
+          disabled={!description.trim()}
+          aria-label="Voeg taak toe"
+        >
+          <span className="material-icons" aria-hidden="true">add</span>
+        </button>
+      </form>
     </div>
   );
 

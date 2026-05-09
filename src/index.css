@@ -85,6 +85,12 @@ body {
   margin: 0;
 }
 
+/* Global focus-visible for better keyboard accessibility */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 .material-icons {
   color: var(--text-muted);
   font-size: 1.25em;
@@ -260,8 +266,13 @@ dialog::backdrop {
   z-index: 10;
 }
 
+.quick-add-form {
+  display: flex;
+  gap: var(--spacing);
+}
+
 .quick-add-input {
-  width: 100%;
+  flex: 1;
   padding-block: 0.88rem;
   padding-inline: 1.33rem;
   border-radius: var(--radius);
@@ -276,6 +287,33 @@ dialog::backdrop {
 
 .quick-add-input:focus {
   border-color: var(--accent);
+}
+
+.quick-add-submit {
+  padding: 0 1rem;
+  border-radius: var(--radius);
+  border: var(--border-width) solid var(--border);
+  background: var(--accent);
+  color: var(--bg);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s;
+}
+
+.quick-add-submit .material-icons {
+  color: var(--bg);
+}
+
+.quick-add-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--border);
+}
+
+.quick-add-submit:disabled .material-icons {
+  color: var(--text-muted);
 }
 
 .task-list {
