@@ -1,3 +1,7 @@
 ## 2024-05-18 - Icon-Only Button Accessibility
 **Learning:** Found several icon-only buttons across `TaskList` and `AddTaskModal` that relied solely on `title` attributes. Adding `aria-label` along with `aria-hidden="true"` on the internal icon elements (`<span class="material-icons">`) is critical for screen reader users to understand the button's purpose without hearing the raw ligature text (like "timer" or "check_circle"). Additionally, toggleable priority/size buttons benefit from `aria-pressed` to indicate their current state.
 **Action:** Always ensure icon-only buttons have descriptive `aria-label` attributes and that the actual icon text/ligature is hidden from screen readers using `aria-hidden="true"`. Use `aria-pressed` for toggle states.
+
+## 2024-05-19 - Text Input Mobile Keyboard Support
+**Learning:** Found that relying solely on `onKeyDown` handlers (specifically for the "Enter" key) on text inputs for submission without a wrapping `<form>` element creates a poor experience on mobile virtual keyboards. The software keyboard might not trigger the correct key events or might not display a proper "Submit", "Go", or "Enter" button, making it difficult or impossible for mobile users to submit their input.
+**Action:** Always wrap text inputs intended for submission in a `<form>` element and handle the action via the form's `onSubmit` event to provide robust cross-device support, specifically for mobile virtual keyboards.
