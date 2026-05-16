@@ -165,6 +165,12 @@ dialog::backdrop {
   color: var(--text-h);
 }
 
+.form-error {
+  color: var(--prio-high);
+  margin-block-end: var(--spacing);
+  font-size: 0.9rem;
+}
+
 .button-group {
   display: flex;
   gap: var(--spacing);
