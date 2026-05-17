@@ -24,13 +24,16 @@ export function QuickAdd({ onAdd }: IQuickAddProps) {
   return (
     <div className="quick-add-container">
       <form onSubmit={handleSubmit}>
+        <label htmlFor="quick-add-input" className="sr-only" style={{ position: 'absolute', width: '1px', height: '1px', padding: '0', margin: '-1px', overflow: 'hidden', clip: 'rect(0, 0, 0, 0)', border: '0' }}>
+          Omschrijving nieuwe taak
+        </label>
         <input
+          id="quick-add-input"
           type="text"
           placeholder="Wat moet je doen?"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           className="quick-add-input"
-          aria-label="Omschrijving nieuwe taak"
         />
       </form>
     </div>
