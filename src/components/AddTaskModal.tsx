@@ -19,6 +19,7 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
   const [priority, setPriority] = useState<Priority>('B');
   const [size, setSize] = useState<Size>('plant');
   const [subTasks, setSubTasks] = useState<ISubTask[]>([]);
+  const [error, setError] = useState<string | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -34,12 +35,14 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
 
   const handleAddSubTask = () => {
     setSubTasks([...subTasks, { description: '', priority: 'B' }]);
+    setError(null);
   };
 
   const handleSubTaskDescChange = (index: number, value: string) => {
     const newSubTasks = [...subTasks];
     newSubTasks[index].description = value;
     setSubTasks(newSubTasks);
+    setError(null);
   };
 
   const handleSubTaskPriorityChange = (index: number, p: Priority) => {
@@ -57,7 +60,7 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
     const filteredSubTasks = subTasks.filter(st => st.description.trim() !== '');
     
     if (size === 'tree' && filteredSubTasks.length === 0) {
-      alert('Tree tasks require at least one sub-task.');
+      setError('Tree tasks require at least one sub-task.');
       return;
     }
 
@@ -94,7 +97,7 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
                 key={s}
                 type="button"
                 className={size === s ? 'active' : ''}
-                onClick={() => setSize(s)}
+                onClick={() => { setSize(s); setError(null); }}
                 title={`Omvang ${s}`}
                 aria-label={`Omvang ${s}`}
                 aria-pressed={size === s}
@@ -176,6 +179,8 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
           </div>
         </div>
 
+
+        {error && <div role="alert" className="error-message">{error}</div>}
 
         <div className="modal-actions">
           <button type="button" onClick={onClose}>Annuleren</button>
