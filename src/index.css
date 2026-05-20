@@ -154,6 +154,24 @@ dialog::backdrop {
   font-size: 1.1rem;
 }
 
+.form-error {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-block-start: 1rem;
+  padding: 0.88rem;
+  background: var(--social-bg);
+  border-left: 0.25rem solid var(--prio-high);
+  border-radius: var(--radius);
+  color: var(--text-h);
+  font-weight: var(--font-weight-bold);
+  font-size: 0.95rem;
+}
+
+.form-error .material-icons {
+  color: var(--prio-high);
+}
+
 .form-group {
   margin-block-end: 1.33rem;
 }
