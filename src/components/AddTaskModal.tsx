@@ -19,6 +19,7 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
   const [priority, setPriority] = useState<Priority>('B');
   const [size, setSize] = useState<Size>('plant');
   const [subTasks, setSubTasks] = useState<ISubTask[]>([]);
+  const [error, setError] = useState<string | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -40,24 +41,28 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
     const newSubTasks = [...subTasks];
     newSubTasks[index].description = value;
     setSubTasks(newSubTasks);
+    setError(null);
   };
 
   const handleSubTaskPriorityChange = (index: number, p: Priority) => {
     const newSubTasks = [...subTasks];
     newSubTasks[index].priority = p;
     setSubTasks(newSubTasks);
+    setError(null);
   };
 
   const handleRemoveSubTask = (index: number) => {
     setSubTasks(subTasks.filter((_, i) => i !== index));
+    setError(null);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
     const filteredSubTasks = subTasks.filter(st => st.description.trim() !== '');
     
     if (size === 'tree' && filteredSubTasks.length === 0) {
-      alert('Tree tasks require at least one sub-task.');
+      setError('Voor een grote taak (boom) is minimaal één deeltaak vereist.');
       return;
     }
 
@@ -73,13 +78,18 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
 
   const showSubTasks = size === 'tree' || size === 'plant';
 
+  const handleClose = () => {
+    setError(null);
+    onClose();
+  };
+
   return (
     <dialog 
       ref={dialogRef} 
       className="modal-content"
       onCancel={(e) => {
         e.preventDefault(); // Prevent default ESC behavior so React state stays in sync
-        onClose();
+        handleClose();
       }}
     >
       <h2 >{description}</h2>
@@ -94,7 +104,10 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
                 key={s}
                 type="button"
                 className={size === s ? 'active' : ''}
-                onClick={() => setSize(s)}
+                onClick={() => {
+                  setSize(s);
+                  setError(null);
+                }}
                 title={`Omvang ${s}`}
                 aria-label={`Omvang ${s}`}
                 aria-pressed={size === s}
@@ -177,8 +190,14 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
         </div>
 
 
+        {error && (
+          <div role="alert" style={{ color: 'var(--prio-high)', fontSize: '0.88rem', marginBottom: '1rem', fontWeight: 'bold' }}>
+            {error}
+          </div>
+        )}
+
         <div className="modal-actions">
-          <button type="button" onClick={onClose}>Annuleren</button>
+          <button type="button" onClick={handleClose}>Annuleren</button>
           <button type="submit" className="primary">Toevoegen</button>
         </div>
       
