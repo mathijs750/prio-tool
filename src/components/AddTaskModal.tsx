@@ -19,6 +19,7 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
   const [priority, setPriority] = useState<Priority>('B');
   const [size, setSize] = useState<Size>('plant');
   const [subTasks, setSubTasks] = useState<ISubTask[]>([]);
+  const [error, setError] = useState<string | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -33,6 +34,7 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
   }, [isOpen]);
 
   const handleAddSubTask = () => {
+    setError(null);
     setSubTasks([...subTasks, { description: '', priority: 'B' }]);
   };
 
@@ -57,7 +59,7 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
     const filteredSubTasks = subTasks.filter(st => st.description.trim() !== '');
     
     if (size === 'tree' && filteredSubTasks.length === 0) {
-      alert('Tree tasks require at least one sub-task.');
+      setError('Tree taken vereisen minimaal één deeltaak.');
       return;
     }
 
@@ -68,6 +70,7 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
       subTasks: filteredSubTasks.length > 0 ? filteredSubTasks : undefined 
     });
     setSubTasks([]); // Reset
+    setError(null);
     onClose();
   };
 
@@ -177,8 +180,10 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
         </div>
 
 
+        {error && <div className="modal-error" role="alert">{error}</div>}
+
         <div className="modal-actions">
-          <button type="button" onClick={onClose}>Annuleren</button>
+          <button type="button" onClick={() => { setError(null); onClose(); }}>Annuleren</button>
           <button type="submit" className="primary">Toevoegen</button>
         </div>
       
