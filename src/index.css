@@ -224,6 +224,13 @@ dialog::backdrop {
   background: var(--border);
 }
 
+.modal-content .modal-error {
+  color: var(--prio-high);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--spacing);
+  font-size: 0.95rem;
+}
+
 .modal-actions {
   display: flex;
   justify-content: space-around;
