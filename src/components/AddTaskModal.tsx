@@ -19,6 +19,7 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
   const [priority, setPriority] = useState<Priority>('B');
   const [size, setSize] = useState<Size>('plant');
   const [subTasks, setSubTasks] = useState<ISubTask[]>([]);
+  const [error, setError] = useState<string | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -54,10 +55,11 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
     const filteredSubTasks = subTasks.filter(st => st.description.trim() !== '');
     
     if (size === 'tree' && filteredSubTasks.length === 0) {
-      alert('Tree tasks require at least one sub-task.');
+      setError('Een boomtaak vereist minimaal één deeltaak.');
       return;
     }
 
@@ -176,6 +178,7 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
           </div>
         </div>
 
+        {error && <div className="form-error" role="alert" style={{ color: 'var(--prio-high)', marginBottom: '1rem', fontWeight: 'bold' }}>{error}</div>}
 
         <div className="modal-actions">
           <button type="button" onClick={onClose}>Annuleren</button>
