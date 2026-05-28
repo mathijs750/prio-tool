@@ -19,6 +19,7 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
   const [priority, setPriority] = useState<Priority>('B');
   const [size, setSize] = useState<Size>('plant');
   const [subTasks, setSubTasks] = useState<ISubTask[]>([]);
+  const [error, setError] = useState<string | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -33,10 +34,12 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
   }, [isOpen]);
 
   const handleAddSubTask = () => {
+    setError(null);
     setSubTasks([...subTasks, { description: '', priority: 'B' }]);
   };
 
   const handleSubTaskDescChange = (index: number, value: string) => {
+    setError(null);
     const newSubTasks = [...subTasks];
     newSubTasks[index].description = value;
     setSubTasks(newSubTasks);
@@ -49,6 +52,7 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
   };
 
   const handleRemoveSubTask = (index: number) => {
+    setError(null);
     setSubTasks(subTasks.filter((_, i) => i !== index));
   };
 
@@ -57,10 +61,11 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
     const filteredSubTasks = subTasks.filter(st => st.description.trim() !== '');
     
     if (size === 'tree' && filteredSubTasks.length === 0) {
-      alert('Tree tasks require at least one sub-task.');
+      setError('Een grote taak (boom) vereist minimaal één deeltaak.');
       return;
     }
 
+    setError(null);
     onSubmit({ 
       description, 
       priority, 
@@ -79,6 +84,7 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
       className="modal-content"
       onCancel={(e) => {
         e.preventDefault(); // Prevent default ESC behavior so React state stays in sync
+        setError(null);
         onClose();
       }}
     >
@@ -86,6 +92,12 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
       
       <form onSubmit={handleSubmit}>
         
+        {error && (
+          <div role="alert" style={{ color: 'var(--prio-high)', marginBottom: '1rem', fontWeight: 'bold' }}>
+            {error}
+          </div>
+        )}
+
         <div className="form-group">
           <label>Omvang</label>
           <div className="button-group">
@@ -94,7 +106,7 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
                 key={s}
                 type="button"
                 className={size === s ? 'active' : ''}
-                onClick={() => setSize(s)}
+                onClick={() => { setSize(s); setError(null); }}
                 title={`Omvang ${s}`}
                 aria-label={`Omvang ${s}`}
                 aria-pressed={size === s}
@@ -178,7 +190,7 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
 
 
         <div className="modal-actions">
-          <button type="button" onClick={onClose}>Annuleren</button>
+          <button type="button" onClick={() => { setError(null); onClose(); }}>Annuleren</button>
           <button type="submit" className="primary">Toevoegen</button>
         </div>
       
