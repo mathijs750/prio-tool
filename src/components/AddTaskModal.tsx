@@ -19,7 +19,13 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
   const [priority, setPriority] = useState<Priority>('B');
   const [size, setSize] = useState<Size>('plant');
   const [subTasks, setSubTasks] = useState<ISubTask[]>([]);
+  const [error, setError] = useState<string | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
+
+  const handleClose = () => {
+    setError(null);
+    onClose();
+  };
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -33,6 +39,7 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
   }, [isOpen]);
 
   const handleAddSubTask = () => {
+    setError(null);
     setSubTasks([...subTasks, { description: '', priority: 'B' }]);
   };
 
@@ -54,10 +61,11 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
     const filteredSubTasks = subTasks.filter(st => st.description.trim() !== '');
     
     if (size === 'tree' && filteredSubTasks.length === 0) {
-      alert('Tree tasks require at least one sub-task.');
+      setError('Voor een taak met omvang "tree" is minimaal één deeltaak vereist.');
       return;
     }
 
@@ -68,7 +76,7 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
       subTasks: filteredSubTasks.length > 0 ? filteredSubTasks : undefined 
     });
     setSubTasks([]); // Reset
-    onClose();
+    handleClose();
   };
 
   const showSubTasks = size === 'tree' || size === 'plant';
@@ -79,7 +87,7 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
       className="modal-content"
       onCancel={(e) => {
         e.preventDefault(); // Prevent default ESC behavior so React state stays in sync
-        onClose();
+        handleClose();
       }}
     >
       <h2 >{description}</h2>
@@ -177,8 +185,15 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
         </div>
 
 
+        {error && (
+          <div role="alert" style={{ color: 'var(--prio-high)', marginBlockEnd: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem', fontWeight: 'bold' }}>
+            <span className="material-icons" aria-hidden="true" style={{ fontSize: '1.2rem' }}>error</span>
+            {error}
+          </div>
+        )}
+
         <div className="modal-actions">
-          <button type="button" onClick={onClose}>Annuleren</button>
+          <button type="button" onClick={handleClose}>Annuleren</button>
           <button type="submit" className="primary">Toevoegen</button>
         </div>
       
