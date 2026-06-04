@@ -560,3 +560,9 @@ dialog::backdrop {
   background: var(--border);
   border-radius: 0.5rem;
 }
+.inline-error {
+  color: var(--prio-high);
+  margin-bottom: 1rem;
+  text-align: center;
+  font-weight: bold;
+}
