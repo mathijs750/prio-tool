@@ -192,6 +192,11 @@ dialog::backdrop {
   transform: scale(1.05);
 }
 
+.button-group button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 .estimation-input-group {
   display: flex;
   gap: 0.5rem;
@@ -224,6 +229,11 @@ dialog::backdrop {
   background: var(--border);
 }
 
+.adjust-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 .modal-actions {
   display: flex;
   justify-content: space-around;
@@ -245,6 +255,11 @@ dialog::backdrop {
   background: var(--accent);
   color: var(--bg);
   border-color: var(--accent);
+}
+
+.modal-actions button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 .quick-add-container {
@@ -401,6 +416,11 @@ dialog::backdrop {
   background: var(--social-bg);
 }
 
+.icon-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 .icon-btn .material-icons {
   font-size: 1.5rem;
 }
@@ -490,6 +510,11 @@ dialog::backdrop {
   justify-content: center;
 }
 
+.subtask-remove-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 .subtask-priority-group {
   margin-top: 0.44rem;
 }
@@ -509,6 +534,11 @@ dialog::backdrop {
   border-radius: var(--radius);
   cursor: pointer;
   color: var(--text);
+}
+
+.add-subtask-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 .subtask-item.completed {
