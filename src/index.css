@@ -560,3 +560,12 @@ dialog::backdrop {
   background: var(--border);
   border-radius: 0.5rem;
 }
+/* Accessibility: Keyboard focus styles */
+.icon-btn:focus-visible,
+.button-group button:focus-visible,
+.modal-actions button:focus-visible,
+.subtask-remove-btn:focus-visible,
+.adjust-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
