@@ -112,7 +112,11 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
               {subTasks.map((st, index) => (
                 <div key={index} className="subtask-row">
                   <div className="subtask-input-container">
+                    <label htmlFor={`subtask-input-${index}`} style={{ clip: 'rect(0,0,0,0)', position: 'absolute' }}>
+                      Deeltaak omschrijving
+                    </label>
                     <input
+                      id={`subtask-input-${index}`}
                       type="text"
                       className="subtask-input"
                       value={st.description}
