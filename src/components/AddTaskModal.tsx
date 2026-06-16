@@ -19,6 +19,7 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
   const [priority, setPriority] = useState<Priority>('B');
   const [size, setSize] = useState<Size>('plant');
   const [subTasks, setSubTasks] = useState<ISubTask[]>([]);
+  const [errorMsg, setErrorMsg] = useState('');
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -57,9 +58,11 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
     const filteredSubTasks = subTasks.filter(st => st.description.trim() !== '');
     
     if (size === 'tree' && filteredSubTasks.length === 0) {
-      alert('Tree tasks require at least one sub-task.');
+      setErrorMsg("Een 'tree' taak vereist minstens één deeltaak.");
       return;
     }
+
+    setErrorMsg('');
 
     onSubmit({ 
       description, 
@@ -94,7 +97,12 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
                 key={s}
                 type="button"
                 className={size === s ? 'active' : ''}
-                onClick={() => setSize(s)}
+                onClick={() => {
+                  setSize(s);
+                  if (s !== 'tree') {
+                    setErrorMsg('');
+                  }
+                }}
                 title={`Omvang ${s}`}
                 aria-label={`Omvang ${s}`}
                 aria-pressed={size === s}
@@ -176,6 +184,8 @@ export function AddTaskModal({ isOpen, description, onClose, onSubmit }: IAddTas
           </div>
         </div>
 
+
+        {errorMsg && <div style={{ color: 'var(--prio-high)', fontSize: '0.88rem', fontWeight: 'var(--font-weight-bold)', marginBottom: '1rem', textAlign: 'center' }} role="alert">{errorMsg}</div>}
 
         <div className="modal-actions">
           <button type="button" onClick={onClose}>Annuleren</button>
