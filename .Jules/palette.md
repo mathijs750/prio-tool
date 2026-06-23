@@ -5,3 +5,7 @@
 ## 2024-05-14 - Mobile Keyboard Accessibility
 **Learning:** Found that the QuickAdd component relied on an `onKeyDown` listener for the Enter key to submit tasks. This can be problematic on mobile devices where virtual keyboards might not reliably trigger the 'Enter' keydown event. Wrapping the input in a `<form>` with an `onSubmit` handler provides native, robust cross-device support for form submission, particularly for mobile users.
 **Action:** Always wrap text inputs intended for submission in `<form>` elements with an `onSubmit` handler rather than relying solely on keyboard event listeners.
+
+## 2024-05-18 - Inline Form Validation Errors
+**Learning:** Found that the `AddTaskModal` used a native `alert()` for form validation when submitting a 'tree' size task without subtasks. Native alerts disrupt the user experience and break accessibility context for screen readers, particularly inside dialogs.
+**Action:** Always prefer inline error states with `role="alert"` over native `alert()` when validating form submissions to maintain accessibility context for screen readers and avoid disruptive behavior. Ensure the error is cleared when the user interacts with the form fields to prevent stale errors.
