@@ -560,3 +560,18 @@ dialog::backdrop {
   background: var(--border);
   border-radius: 0.5rem;
 }
+/* Accessibility: Focus visible styles */
+.button-group button:focus-visible,
+.modal-actions button:focus-visible,
+.adjust-btn:focus-visible,
+.icon-btn:focus-visible,
+.add-subtask-btn:focus-visible,
+.subtask-remove-btn:focus-visible,
+.quick-add-input:focus-visible,
+.subtask-input:focus-visible,
+.estimation-input-group input:focus-visible,
+.subtask-check-item input[type="checkbox"]:focus-visible,
+.form-group input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
