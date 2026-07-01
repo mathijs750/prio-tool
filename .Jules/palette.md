@@ -5,3 +5,7 @@
 ## 2024-05-14 - Mobile Keyboard Accessibility
 **Learning:** Found that the QuickAdd component relied on an `onKeyDown` listener for the Enter key to submit tasks. This can be problematic on mobile devices where virtual keyboards might not reliably trigger the 'Enter' keydown event. Wrapping the input in a `<form>` with an `onSubmit` handler provides native, robust cross-device support for form submission, particularly for mobile users.
 **Action:** Always wrap text inputs intended for submission in `<form>` elements with an `onSubmit` handler rather than relying solely on keyboard event listeners.
+
+## 2024-07-01 - Hidden Native Labels for Assistive Tech
+**Learning:** Found that text inputs (like the QuickAdd and subtask inputs) relied on `aria-label` or lacked labels entirely. While `aria-label` works for screen readers, speech dictation software often relies on explicitly associated native `<label>` elements to target inputs reliably.
+**Action:** Always prefer explicitly associated native `<label>` elements (using `htmlFor`), visually hiding them with inline CSS (`clip: rect(0,0,0,0)`) if necessary, over `aria-label` attributes for inputs to ensure broader assistive technology support.
